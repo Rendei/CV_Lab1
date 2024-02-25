@@ -1,0 +1,26 @@
+﻿<Window x:Class="CV_Lab1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CV_Lab1"
+        mc:Ignorable="d"
+        Title="MyPhotoshop" Height="700" Width="1200">
+    <Grid>
+        <Button x:Name="imgLoadBtn" Content="Загрузить изображение" HorizontalAlignment="Center" Margin="1000,599,32,0" VerticalAlignment="Top" Height="50" Width="141" Click="LoadImage"/>
+        <Separator HorizontalAlignment="Left" Margin="462,419,0,0" VerticalAlignment="Top" Height="73" Width="1021" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>
+        <Image x:Name="userImg" HorizontalAlignment="Center" Height="300" Margin="-500,25,0,0" VerticalAlignment="Top" Width="400"/>
+        <Image x:Name="userImgBW" HorizontalAlignment="Left" Height="300" Margin="320,342,0,0" VerticalAlignment="Top" Width="400"/>
+        <Button Content="Конвертировать в ЧБ" HorizontalAlignment="Left" Margin="1014,495,0,0" VerticalAlignment="Top" Height="47" Width="140" Click="ConvertImageToBW"/>
+
+    </Grid>
+</Window>
