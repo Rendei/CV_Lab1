@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:CV_Lab1"
         mc:Ignorable="d"
-        Title="MyPhotoshop" Height="700" Width="1200">
-    <Grid>
-        <Button x:Name="imgLoadBtn" Content="Загрузить изображение" HorizontalAlignment="Center" Margin="1000,599,32,0" VerticalAlignment="Top" Height="50" Width="141" Click="LoadImage"/>
-        <Separator HorizontalAlignment="Left" Margin="462,419,0,0" VerticalAlignment="Top" Height="73" Width="1021" RenderTransformOrigin="0.5,0.5">
+        Title="MyPhotoshop" Height="900" Width="1400">
+    <Grid Margin="0,0,0,-16">
+        <Button x:Name="imgLoadBtn" Content="Загрузить изображение" HorizontalAlignment="Center" Margin="1200,599,32,0" VerticalAlignment="Top" Height="50" Width="141" Click="LoadImage" RenderTransformOrigin="0.553,0.481"/>
+        <Separator HorizontalAlignment="Left" Margin="400,681,0,0" VerticalAlignment="Top" Height="73" Width="1545" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -18,9 +19,35 @@
                 </TransformGroup>
             </Separator.RenderTransform>
         </Separator>
-        <Image x:Name="userImg" HorizontalAlignment="Center" Height="300" Margin="-500,25,0,0" VerticalAlignment="Top" Width="400"/>
-        <Image x:Name="userImgBW" HorizontalAlignment="Left" Height="300" Margin="320,342,0,0" VerticalAlignment="Top" Width="400"/>
-        <Button Content="Конвертировать в ЧБ" HorizontalAlignment="Left" Margin="1014,495,0,0" VerticalAlignment="Top" Height="47" Width="140" Click="ConvertImageToBW"/>
+        <Label Content="Исходное изображение" HorizontalAlignment="Left" Margin="260,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="userImg" HorizontalAlignment="Left" Height="300" Margin="132,56,0,0" VerticalAlignment="Top" Width="400" MouseMove="userImg_MouseMove" MouseLeave="userImg_MouseLeave"/>
+        <Border x:Name="frame" Width="50" Height="50" BorderBrush="Red" BorderThickness="1" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image x:Name="zoomedImageImg" HorizontalAlignment="Left" Height="50" Margin="600,400,0,0" VerticalAlignment="Top" Width="50"/>
+        <Label x:Name="centerPixelLabelTop" Content="" HorizontalAlignment="Left" Margin="260,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364" MouseMove="userImg_MouseMove" Background="White"/>
+        <Label x:Name="centerPixelLabelBottom" Content="" HorizontalAlignment="Left" Margin="260,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364" MouseMove="userImg_MouseMove" Background="White"/>
+        
+        <Label Content="ЧБ изображение" HorizontalAlignment="Left" Margin="758,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="userImgBW" HorizontalAlignment="Left" Height="300" Margin="602,56,0,0" VerticalAlignment="Top" Width="400"/>
+
+        <!--<Button Content="Конвертировать в ЧБ" HorizontalAlignment="Center" Margin="1000,490,32,0" VerticalAlignment="Top" Height="48" Width="140" Click="ConvertImageToBW"/>-->
+        <Label Content="Синее изображение" HorizontalAlignment="Left" Margin="202,398,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="BlueChannelImage" HorizontalAlignment="Left" Height="286" Margin="126,450,0,0" VerticalAlignment="Top" Width="280"/>
+        <!--<lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Left" Margin="79,699,949,30">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Яркость" Labels="{Binding Labels}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Количество" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>-->
+
+
+        <Label Content="Зелёное изображение" HorizontalAlignment="Left" Margin="528,398,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="GreenChannelImage" HorizontalAlignment="Left" Height="286" Margin="448,450,0,0" VerticalAlignment="Top" Width="280"/>
+
+        <Label Content="Красное изображение" HorizontalAlignment="Left" Margin="838,398,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="RedChannelImage" HorizontalAlignment="Left" Height="286" Margin="782,450,0,0" VerticalAlignment="Top" Width="280"/>
+
 
     </Grid>
 </Window>

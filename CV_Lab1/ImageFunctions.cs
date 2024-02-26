@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows;
 
 namespace CV_Lab1
 {
@@ -14,16 +15,16 @@ namespace CV_Lab1
         [StructLayout(LayoutKind.Sequential)]
         public struct PixelColor
         {
-            public float Blue;
-            public float Green;
-            public float Red;
+            public byte Blue;
+            public byte Green;
+            public byte Red;
             public byte Alpha;
 
             public static PixelColor operator /(PixelColor c, byte divisor) => new PixelColor()
             {
-                Blue = (float)(c.Blue / divisor),
-                Green = (float)(c.Green / divisor),
-                Red = (float)(c.Red / divisor),
+                Blue = (byte)(c.Blue / divisor),
+                Green = (byte)(c.Green / divisor),
+                Red = (byte)(c.Red / divisor),
                 Alpha = (byte)(c.Alpha),
             };
         }
@@ -39,6 +40,17 @@ namespace CV_Lab1
            
             source.CopyPixels1(result, width * 4, 0);
             return result;        
+        }
+
+        public static Color GetPixelColor(BitmapSource bitmap, int x, int y)
+        {
+            if (x == bitmap.PixelWidth)
+                x -= 1;
+            if (y == bitmap.PixelHeight)
+                y -= 1;
+            byte[] pixel = new byte[4];            
+            bitmap.CopyPixels(new Int32Rect(x, y, 1, 1), pixel, 4, 0);
+            return Color.FromArgb(pixel[3], pixel[2], pixel[1], pixel[0]);
         }
     }
 }
