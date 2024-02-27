@@ -134,9 +134,16 @@ namespace CV_Lab1
             // Get the mouse position relative to the image
             Point mousePos = e.GetPosition(userImg);
 
+            Point frameTopLeft = MoveFrame(mousePos);
+            Color centerPixel = MoveZoomedImage(mousePos,frameTopLeft, (int)frame.Width);
+            MoveZoomedImageLabels(mousePos, frameTopLeft, centerPixel);
+        }
+
+        private Point MoveFrame(Point point)
+        {
             // Calculate the frame position relative to the cursor position
-            double frameLeft = mousePos.X - frame.Width / 2; // Half the frame width
-            double frameTop = mousePos.Y - frame.Height / 2; // Half the frame height
+            double frameLeft = point.X - frame.Width / 2; // Half the frame width
+            double frameTop = point.Y - frame.Height / 2; // Half the frame height
             int frameSize = (int)zoomedImageImg.Height;
             // Ensure the frame stays within the bounds of the image
             if (frameLeft < 0)
@@ -151,19 +158,20 @@ namespace CV_Lab1
 
             // Update the Margin property of the frame to position it over the userImg image
             frame.Margin = new Thickness(frameLeft + userImg.Margin.Left, frameTop + userImg.Margin.Top, 0, 0);
-            zoomedImageImg.Margin = new Thickness(frameLeft + userImg.Margin.Left, frameTop, 0, 0);
+            frame.Visibility = Visibility.Visible;
 
-            // Get the original image source
-            BitmapSource originalSource = (BitmapSource)userImg.Source;
+            return new Point(frameLeft, frameTop);
+        }
 
-            // Ensure the pixel format is compatible (e.g., convert indexed formats to 32bpp)
+        private Color MoveZoomedImage(Point mousePos, Point topLeft, int frameSize)
+        {            
+            BitmapSource originalSource = (BitmapSource)userImg.Source;            
             originalSource = new FormatConvertedBitmap(originalSource, PixelFormats.Bgra32, null, 0);
 
             // Calculate the coordinates of the top-left corner of the frame
-            int frameStartX = (int)Math.Round(frameLeft);
-            int frameStartY = (int)Math.Round(frameTop);
-
-            // Extract the pixels within the frame
+            int frameStartX = (int)Math.Round(topLeft.X);
+            int frameStartY = (int)Math.Round(topLeft.Y);
+            
             byte[] pixels = new byte[frameSize * frameSize * 4];
 
             for (int y = 0; y < frameSize; y++)
@@ -186,29 +194,29 @@ namespace CV_Lab1
                     pixels[destIndex + 3] = color.A;
                 }
             }
-
-            // Create a new WriteableBitmap and fill it with the extracted pixels
+            
             WriteableBitmap zoomedImage = new WriteableBitmap(frameSize, frameSize, originalSource.DpiX, originalSource.DpiY, PixelFormats.Bgra32, null);
             zoomedImage.WritePixels(new Int32Rect(0, 0, frameSize, frameSize), pixels, frameSize * 4, 0);
 
             // Display the zoomed image in the zoomedImageImg control
             zoomedImageImg.Source = zoomedImage;
-
-            // Make the frame visible
-            frame.Visibility = Visibility.Visible;
-            centerPixelLabelTop.Visibility = Visibility.Visible;
-            centerPixelLabelBottom.Visibility = Visibility.Visible;
-
+            zoomedImageImg.Margin = new Thickness(topLeft.X + userImg.Margin.Left, topLeft.Y, 0, 0);
             Color centerPixelColor = ImageFunctions.GetPixelColor(originalSource, (int)Math.Floor(mousePos.X), (int)Math.Floor(mousePos.Y));
-            centerPixelLabelTop.Content = string.Format($"Координаты пикселя ({mousePos.X}, {mousePos.Y})\nЦвета каналов в данном пикселе Зелёный: {centerPixelColor.G}, Синий: {centerPixelColor.B}, Красный: {centerPixelColor.R}");
-            centerPixelLabelTop.Margin = new Thickness(frameLeft, frameTop - frame.Height / 2, 0, 0);
-            
 
-            centerPixelLabelBottom.Content = string.Format($"Интенсивность окна равна: {(centerPixelColor.G + centerPixelColor.R + centerPixelColor.B) / 3}");
-            centerPixelLabelBottom.Margin = new Thickness(frameLeft, frameTop + frame.Height * 2 + 10, 0, 0);
+            return centerPixelColor;
         }
 
+        private void MoveZoomedImageLabels(Point mousePos, Point topLeft, Color centerPixelColor)
+        {
+            centerPixelLabelTop.Visibility = Visibility.Visible;
+            centerPixelLabelBottom.Visibility = Visibility.Visible;
+            
+            centerPixelLabelTop.Content = string.Format($"Координаты пикселя ({mousePos.X}, {mousePos.Y})\nЦвета каналов в данном пикселе Зелёный: {centerPixelColor.G}, Синий: {centerPixelColor.B}, Красный: {centerPixelColor.R}");
+            centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y - frame.Height, 0, 0);
 
+            centerPixelLabelBottom.Content = string.Format($"Интенсивность окна равна: {(centerPixelColor.G + centerPixelColor.R + centerPixelColor.B) / 3}");
+            centerPixelLabelBottom.Margin = new Thickness(topLeft.X, topLeft.Y + frame.Height * 2 + 10, 0, 0);
+        }
 
         private void userImg_MouseLeave(object sender, MouseEventArgs e)
         {
