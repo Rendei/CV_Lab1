@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CV_Lab1
 {
@@ -78,9 +77,9 @@ namespace CV_Lab1
         {
             int width = image.PixelWidth;
             int height = image.PixelHeight;
-            byte[] bytes = new byte[width * height * 4];
+            byte[] pixels = new byte[width * height * 4];
 
-            image.CopyPixels(bytes, width * 4, 0);
+            image.CopyPixels(pixels, width * 4, 0);
 
             for (int i = 0; i < width; i++)
             {
@@ -88,15 +87,15 @@ namespace CV_Lab1
                 {
                     int index = (j * width + i) * 4;
 
-                    byte luminance = (byte)(0.2126 * bytes[index + 2] + 0.7152 * bytes[index + 1] + 0.0722 * bytes[index]); // https://en.wikipedia.org/wiki/Grayscale
+                    byte luminance = (byte)(0.2126 * pixels[index + 2] + 0.7152 * pixels[index + 1] + 0.0722 * pixels[index]); // https://en.wikipedia.org/wiki/Grayscale
 
-                    bytes[index] = luminance; // Blue
-                    bytes[index + 1] = luminance; // Green
-                    bytes[index + 2] = luminance; // Red
+                    pixels[index] = luminance; // Blue
+                    pixels[index + 1] = luminance; // Green
+                    pixels[index + 2] = luminance; // Red
                 }
             }
 
-            BitmapSource grayscaleBitmap = BitmapSource.Create(width, height, 1, 1, PixelFormats.Bgra32, null, bytes, width * 4);
+            BitmapSource grayscaleBitmap = BitmapSource.Create(width, height, 1, 1, PixelFormats.Bgra32, null, pixels, width * 4);
             userImgBW.Source = grayscaleBitmap;
 
         }
@@ -224,6 +223,11 @@ namespace CV_Lab1
             centerPixelLabelTop.Visibility = Visibility.Collapsed;
             centerPixelLabelBottom.Visibility = Visibility.Collapsed;
             zoomedImageImg.Source = null;
+        }
+
+        private void channelBrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            userImg.Source.SetCurrentValue(ActualWidthProperty, channelBrightnessSlider.Value);
         }
     }
 }

@@ -52,5 +52,28 @@ namespace CV_Lab1
             bitmap.CopyPixels(new Int32Rect(x, y, 1, 1), pixel, 4, 0);
             return Color.FromArgb(pixel[3], pixel[2], pixel[1], pixel[0]);
         }
+
+        public static void ChangeColorChannelBrightness(BitmapSource source, int colorChannelOffset, int additionValue)
+        {
+            int width = source.PixelWidth;
+            int height = source.PixelHeight;
+
+            byte[] pixels = new byte[width * height * 4];
+
+            source.CopyPixels(pixels, width, 0);
+
+            for (int i = 0; i < width; i+= colorChannelOffset)
+            {
+                for (int j = 0; j < height; j+= colorChannelOffset)
+                {
+                    int index = (j * width + i) * 4;
+
+                    if (pixels[index] + additionValue > 255)
+                        pixels[index] = 255;
+                    else if (pixels[index] - additionValue < 0)
+                        pixels[index] = 0;                 
+                }
+            }
+        }
     }
 }
