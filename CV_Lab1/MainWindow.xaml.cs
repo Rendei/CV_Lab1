@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static CV_Lab1.ImageFunctions;
 
 namespace CV_Lab1
 {
@@ -23,22 +24,10 @@ namespace CV_Lab1
         private BitmapSource redBitmap;
         private BitmapSource greenBitmap;
         private BitmapSource blueBitmap;
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
+        
         public MainWindow()
         {
-            InitializeComponent();
-
-            SeriesCollection = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "Частота",
-                    Values = new ChartValues<byte> {0 , 0 ,1 , 3, 4, 0, 5}
-                }
-            };
-
-            Labels = new[] { "Maria", "Susan", "Charles", "Frida" };
+            InitializeComponent();            
 
             DataContext = this;
         }
@@ -58,6 +47,7 @@ namespace CV_Lab1
                 var imageSource = (BitmapSource)userImg.Source;
                 ConvertImageToBW(imageSource);
                 DisplayColorChannels(imageSource);
+                new HistogramsWindow(redBitmap, greenBitmap, blueBitmap).Show();
             }
         }
 
@@ -126,6 +116,10 @@ namespace CV_Lab1
             RedChannelImage.Source = redBitmap;
             GreenChannelImage.Source = greenBitmap;
             BlueChannelImage.Source = blueBitmap;
+
+            this.redBitmap = redBitmap;
+            this.greenBitmap = greenBitmap;
+            this.blueBitmap = blueBitmap;
         }
 
         private void userImg_MouseMove(object sender, MouseEventArgs e)
@@ -140,22 +134,21 @@ namespace CV_Lab1
 
         private Point MoveFrame(Point point)
         {
-            // Calculate the frame position relative to the cursor position
-            double frameLeft = point.X - frame.Width / 2; // Half the frame width
-            double frameTop = point.Y - frame.Height / 2; // Half the frame height
+            double frameLeft = point.X - frame.Width / 2; // center
+            double frameTop = point.Y - frame.Height / 2; 
             int frameSize = (int)zoomedImageImg.Height;
+
             // Ensure the frame stays within the bounds of the image
             if (frameLeft < 0)
                 frameLeft = 0;
-            else if (frameLeft > userImg.ActualWidth - frameSize) // Ensure the frame width doesn't exceed 110 pixels
+            else if (frameLeft > userImg.ActualWidth - frameSize)
                 frameLeft = userImg.ActualWidth - frameSize;
 
             if (frameTop < 0)
                 frameTop = 0;
-            else if (frameTop > userImg.ActualHeight - frameSize) // Ensure the frame height doesn't exceed 110 pixels
+            else if (frameTop > userImg.ActualHeight - frameSize)
                 frameTop = userImg.ActualHeight - frameSize;
 
-            // Update the Margin property of the frame to position it over the userImg image
             frame.Margin = new Thickness(frameLeft + userImg.Margin.Left, frameTop + userImg.Margin.Top, 0, 0);
             frame.Visibility = Visibility.Visible;
 
@@ -167,7 +160,6 @@ namespace CV_Lab1
             BitmapSource originalSource = (BitmapSource)userImg.Source;            
             originalSource = new FormatConvertedBitmap(originalSource, PixelFormats.Bgra32, null, 0);
 
-            // Calculate the coordinates of the top-left corner of the frame
             int frameStartX = (int)Math.Round(topLeft.X);
             int frameStartY = (int)Math.Round(topLeft.Y);
             
@@ -180,13 +172,10 @@ namespace CV_Lab1
                     int pixelX = frameStartX + x;
                     int pixelY = frameStartY + y;
 
-                    // Get the color of the pixel from the original image
                     Color color = ImageFunctions.GetPixelColor(originalSource, pixelX, pixelY);
 
-                    // Calculate destination index
                     int destIndex = (y * frameSize + x) * 4;
 
-                    // Copy pixel values to the buffer
                     pixels[destIndex] = color.B;
                     pixels[destIndex + 1] = color.G;
                     pixels[destIndex + 2] = color.R;
@@ -197,7 +186,6 @@ namespace CV_Lab1
             WriteableBitmap zoomedImage = new WriteableBitmap(frameSize, frameSize, originalSource.DpiX, originalSource.DpiY, PixelFormats.Bgra32, null);
             zoomedImage.WritePixels(new Int32Rect(0, 0, frameSize, frameSize), pixels, frameSize * 4, 0);
 
-            // Display the zoomed image in the zoomedImageImg control
             zoomedImageImg.Source = zoomedImage;
             zoomedImageImg.Margin = new Thickness(topLeft.X + userImg.Margin.Left, topLeft.Y, 0, 0);
             Color centerPixelColor = ImageFunctions.GetPixelColor(originalSource, (int)Math.Floor(mousePos.X), (int)Math.Floor(mousePos.Y));
@@ -210,7 +198,8 @@ namespace CV_Lab1
             centerPixelLabelTop.Visibility = Visibility.Visible;
             centerPixelLabelBottom.Visibility = Visibility.Visible;
             
-            centerPixelLabelTop.Content = string.Format($"Координаты пикселя ({mousePos.X}, {mousePos.Y})\nЦвета каналов в данном пикселе Зелёный: {centerPixelColor.G}, Синий: {centerPixelColor.B}, Красный: {centerPixelColor.R}");
+            centerPixelLabelTop.Content = string.Format($"Координаты пикселя ({mousePos.X}, {mousePos.Y})\n" +
+                $"Цвета каналов в данном пикселе Зелёный: {centerPixelColor.G}, Синий: {centerPixelColor.B}, Красный: {centerPixelColor.R}");
             centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y - frame.Height, 0, 0);
 
             centerPixelLabelBottom.Content = string.Format($"Интенсивность окна равна: {(centerPixelColor.G + centerPixelColor.R + centerPixelColor.B) / 3}");
@@ -223,11 +212,19 @@ namespace CV_Lab1
             centerPixelLabelTop.Visibility = Visibility.Collapsed;
             centerPixelLabelBottom.Visibility = Visibility.Collapsed;
             zoomedImageImg.Source = null;
+        }     
+
+        private void imgChangeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ImageChangerWindow imageChangerWindow = new ImageChangerWindow(userImg);
+            imageChangerWindow.ShowDialog();
         }
 
-        private void channelBrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void imgBrightnessProfileBtn_Click(object sender, RoutedEventArgs e)
         {
-            userImg.Source.SetCurrentValue(ActualWidthProperty, channelBrightnessSlider.Value);
+            BrightnessProfileWindow brightnessWindow = new BrightnessProfileWindow(userImg);
+            brightnessWindow.ShowDialog();
         }
     }
+
 }

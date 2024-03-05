@@ -1,0 +1,42 @@
+﻿<Window x:Class="CV_Lab1.ImageChangerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CV_Lab1"
+        mc:Ignorable="d"
+        Title="ImageChangerWindow" Height="317" Width="800"
+        ResizeMode="CanMinimize">
+    <Grid Height="307" VerticalAlignment="Top">
+        <StackPanel x:Name="colorPanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="180" Margin="10,10,0,0" Width="196">
+            <Label Content="Повысить интесивность канала" FontSize="12" HorizontalAlignment="Center"></Label>
+            <RadioButton x:Name="redChannelRadioButton" Content="Красный" IsChecked="True"/>
+            <RadioButton x:Name="greenChannelRadioButton" Content="Зелёный"/>
+            <RadioButton x:Name="blueChannelRadioButton" Content="Синий"/>
+            <Slider x:Name="channelBrightnessSlider" Width="120" Margin="0 20 0 0" Minimum="-255" Maximum="255" Value="0" ValueChanged="channelBrightnessSlider_ValueChanged"/>
+        </StackPanel>
+
+        <StackPanel Margin="206,11,322,117">
+            <Label Content="Повысить контрастность изображения" HorizontalAlignment="Center"/>
+            <Slider x:Name="contrastSlider" Margin="0 60 0 0" Width="120" Minimum="-100" Maximum="100" Value="0" ValueChanged="contrastSlider_ValueChanged"/>
+        </StackPanel>
+
+        <StackPanel Margin="483,11,10,117">
+            <Label Content="Обменять данные каналов" HorizontalAlignment="Center"> </Label>
+            <ComboBox x:Name="firstChannelComboBox" SelectedValue="">
+                <ComboBoxItem IsSelected="True" Content="Красный" Tag="2" ></ComboBoxItem>
+                <ComboBoxItem Content="Зелёный" Tag="1"></ComboBoxItem>
+                <ComboBoxItem Content="Синий" Tag="3"></ComboBoxItem>
+            </ComboBox>
+            <ComboBox x:Name="secondChannelComboBox" Margin="0 10 0 0">
+                <ComboBoxItem Content="Красный" Tag="2"/>
+                <ComboBoxItem IsSelected="True" Content="Зелёный" Tag="1"/>
+                <ComboBoxItem Content="Синий" Tag="3"/>
+            </ComboBox>
+            <Button x:Name="changeChannelsButton" Margin="0 20 0 0 " Click="changeChannelsButton_Click">Обменять</Button>
+        </StackPanel>
+        
+        <Button x:Name="negativeImageButton" Margin="10,195,0,0" FontSize="12" Click="negativeImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top">Сделать негатив изображения</Button>
+        <Button x:Name="flipImageButton" Margin="249,195,0,0" FontSize="12" Click="flipImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Перевернуть изображение"/>
+    </Grid>
+</Window>

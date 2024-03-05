@@ -8,7 +8,12 @@
         mc:Ignorable="d"
         Title="MyPhotoshop" Height="900" Width="1400">
     <Grid Margin="0,0,0,-16">
-        <Button x:Name="imgLoadBtn" Content="Загрузить изображение" HorizontalAlignment="Left" Margin="1219,723,0,0" VerticalAlignment="Top" Height="50" Width="140" Click="LoadImage" RenderTransformOrigin="0.553,0.481"/>
+        <StackPanel x:Name="buttonPanel" Margin="1171,486,0,10">
+            <Button x:Name="imgChangeBtn" Content="Изменить изображение" HorizontalAlignment="Right"  Margin="0 150 20 0" VerticalAlignment="Top" Height="50" Width="180" Click="imgChangeBtn_Click"></Button>
+            <Button x:Name="imgLoadBtn" Content="Загрузить изображение" HorizontalAlignment="Right" Margin="0 30 20 0" VerticalAlignment="Top" Height="50" Width="180" Click="LoadImage" />
+            <Button x:Name="imgBrightnessProfileBtn" Content="Просмотреть профиль яркости" HorizontalAlignment="Right" Margin="0 30 20 0" Height="50" Width="180" FontSize="11" Click="imgBrightnessProfileBtn_Click"></Button>
+        </StackPanel>
+        
         <Separator HorizontalAlignment="Left" Margin="400,681,0,0" VerticalAlignment="Top" Height="73" Width="1545" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
                 <TransformGroup>
@@ -19,6 +24,7 @@
                 </TransformGroup>
             </Separator.RenderTransform>
         </Separator>
+        
         <Label Content="Исходное изображение" HorizontalAlignment="Left" Margin="260,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
         <Image x:Name="userImg" HorizontalAlignment="Left" Height="300" Margin="132,56,0,0" VerticalAlignment="Top" Width="400" MouseMove="userImg_MouseMove" MouseLeave="userImg_MouseLeave"/>
         <Border x:Name="frame" Width="50" Height="50" BorderBrush="Red" BorderThickness="1" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -47,15 +53,7 @@
 
         <Label Content="Красное изображение" HorizontalAlignment="Left" Margin="838,398,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
         <Image x:Name="RedChannelImage" HorizontalAlignment="Left" Height="286" Margin="782,450,0,0" VerticalAlignment="Top" Width="280"/>
-        <StackPanel Margin="1205,511,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="180">
-            <Label Content="Повысить интесивность канала" FontSize="11"></Label>
-            <RadioButton Content="Красный" IsChecked="True"/>
-            <RadioButton Content="Зелёный"/>
-            <RadioButton Content="Синий"/>
-            <Slider x:Name="channelBrightnessSlider" Width="120" Margin="0 20 0 0" Minimum="-255" Maximum="255" Value="0" ValueChanged="channelBrightnessSlider_ValueChanged"/>
-
-        </StackPanel>
-
+        
 
     </Grid>
 </Window>
