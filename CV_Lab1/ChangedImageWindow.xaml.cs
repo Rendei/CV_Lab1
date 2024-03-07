@@ -33,15 +33,14 @@ namespace CV_Lab1
         {
             
             SaveFileDialog saveFileDialog = new SaveFileDialog()
-            {
-                Filter = "Image Files (*.BMP;*.PNG)|*.BMP;*.PNG",
+            {              
                 DefaultExt = ".png",
             };
             
             bool? isSaving = saveFileDialog.ShowDialog();
             if (isSaving == true)
             {
-                using (var stream = new FileStream(saveFileDialog.SafeFileName, FileMode.Create))
+                using (var stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
                     var encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(BitmapFrame.Create((BitmapSource)changedImg.Source));
