@@ -1,0 +1,22 @@
+﻿<Window x:Class="CV_Lab1.ColorChannelsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CV_Lab1"
+        mc:Ignorable="d"
+        Title="Каналы изображения" Height="550" Width="1200"
+        ResizeMode="CanMinimize">
+    <Grid Margin="0,0,0,-16">
+        <Label Content="Синее изображение" HorizontalAlignment="Left" Margin="139,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="BlueChannelImage" HorizontalAlignment="Left" Height="333" Margin="54,63,0,0" VerticalAlignment="Top" Width="300"/>
+
+        <Label Content="Зелёное изображение" HorizontalAlignment="Left" Margin="526,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="GreenChannelImage" HorizontalAlignment="Left" Height="333" Margin="444,63,0,0" VerticalAlignment="Top" Width="300"/>
+
+        <Label Content="Красное изображение" HorizontalAlignment="Left" Margin="929,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,-0.364"/>
+        <Image x:Name="RedChannelImage" HorizontalAlignment="Left" Height="333" Margin="834,63,0,0" VerticalAlignment="Top" Width="300"/>
+
+        <Button x:Name="imgHistogramBtn" Content="Просмотреть гистограммы" HorizontalAlignment="Center" Margin="0,397,0,20" Height="50" Width="224" FontSize="12" Click="imgHistogramBtn_Click"></Button>
+    </Grid>
+</Window>

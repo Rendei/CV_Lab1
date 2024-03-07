@@ -40,22 +40,21 @@ namespace CV_Lab1
 
         private void ShowBrightnessProfile(object sender, RoutedEventArgs e)
         {
-            // Get the row chosen by the user
+            if (userImg.Source == null)
+                return;
+
             int chosenRow;
             if (!int.TryParse(RowTextBox.Text, out chosenRow) || chosenRow < 0 || chosenRow >= userImg.Source.Height)
             {
-                MessageBox.Show("Please enter a valid row number.");
+                MessageBox.Show($"Пожалуйста введите число до {userImg.Source.Height - 1}");
                 return;
             }
 
-            // Get the width of the image
-            int width = ((BitmapImage)userImg.Source).PixelWidth;
+            int width = ((BitmapSource)userImg.Source).PixelWidth;
 
-            // Get the pixel values for the chosen row
             byte[] pixels = new byte[width * 4];
             ((BitmapSource)userImg.Source).CopyPixels(new Int32Rect(0, chosenRow, width, 1), pixels, width * 4, 0);
 
-            // Calculate brightness profile
             ChartValues<double> brightnessValues = new ChartValues<double>();
             for (int i = 0; i < width * 4; i += 4)
             {
@@ -68,7 +67,6 @@ namespace CV_Lab1
                 Labels.Add((i / 4).ToString());
             }
 
-            // Update brightness profile chart
             BrightnessProfile.Clear();
             BrightnessProfile.Add(new LineSeries
             {

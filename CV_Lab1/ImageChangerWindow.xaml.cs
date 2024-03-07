@@ -24,11 +24,14 @@ namespace CV_Lab1
     public partial class ImageChangerWindow : Window
     {
         private Image userImg;
+        private Image changedImg;
 
-        public ImageChangerWindow(Image userImg)
+        public ImageChangerWindow(Image userImg, Image changedImg)
         {
             InitializeComponent();
             this.userImg = userImg;
+            this.changedImg = changedImg;
+            redChannelRadioButton.IsChecked = true;
         }
 
         private void channelBrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -47,7 +50,7 @@ namespace CV_Lab1
                 return;
 
             // Get the original image source
-            BitmapSource originalSource = (BitmapSource)userImg.Source;
+            BitmapSource originalSource = (BitmapSource)changedImg.Source; //!!!
             originalSource = new FormatConvertedBitmap(originalSource, PixelFormats.Bgra32, null, 0);
 
             // Get the selected color channel
@@ -75,7 +78,7 @@ namespace CV_Lab1
             double brightnessValue = channelBrightnessSlider.Value;
 
             BitmapSource adjustedImage = AdjustBrightness(originalSource, selectedChannel, brightnessValue);
-            userImg.Source = adjustedImage;
+            changedImg.Source = adjustedImage;
         }
 
         private void UpdateContrast()
@@ -83,11 +86,11 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            BitmapSource originalSource = (BitmapSource)userImg.Source;
+            BitmapSource originalSource = (BitmapSource)changedImg.Source; //!!!
             originalSource = new FormatConvertedBitmap(originalSource, PixelFormats.Bgra32, null, 0);
             double threshold = contrastSlider.Value;
             BitmapSource adjustedImage = AdjustContrast(originalSource, threshold);
-            userImg.Source = adjustedImage;
+            changedImg.Source = adjustedImage;
             
         }
 
@@ -97,7 +100,7 @@ namespace CV_Lab1
                 return;
 
 
-            userImg.Source = GetNegativeImage((BitmapSource)userImg.Source);
+            changedImg.Source = GetNegativeImage((BitmapSource)changedImg.Source); //!!
         }
 
         private void changeChannelsButton_Click(object sender, RoutedEventArgs e)
@@ -105,7 +108,7 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            userImg.Source = SwapColorChannels((BitmapSource)userImg.Source, 
+            changedImg.Source = SwapColorChannels((BitmapSource)changedImg.Source,  //!!
                 int.Parse(((ComboBoxItem)firstChannelComboBox.SelectedItem).Tag.ToString()), 
                 int.Parse(((ComboBoxItem)secondChannelComboBox.SelectedItem).Tag.ToString()));
         }
@@ -115,7 +118,28 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            userImg.Source = FlipImageVertically((BitmapSource)userImg.Source);
+            changedImg.Source = FlipImageVertically((BitmapSource)changedImg.Source); //!!!
+        }
+
+        private void removeNoiseImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            changedImg.Source = RemoveNoise((BitmapSource)changedImg.Source, 4); //!!!
+        }
+
+        private void originalImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            changedImg.Source = userImg.Source;
+            channelBrightnessSlider.Value = 0;
+            contrastSlider.Value = 0;
+            
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            channelBrightnessSlider.Value = 0;
         }
     }
 }

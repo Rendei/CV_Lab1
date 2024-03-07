@@ -21,14 +21,11 @@ namespace CV_Lab1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BitmapSource redBitmap;
-        private BitmapSource greenBitmap;
-        private BitmapSource blueBitmap;
-        
+        private Image changedImg;
         public MainWindow()
         {
-            InitializeComponent();            
-
+            InitializeComponent();
+            changedImg = new Image();
             DataContext = this;
         }
 
@@ -46,8 +43,11 @@ namespace CV_Lab1
                 SetImage(fileDialog.FileName);
                 var imageSource = (BitmapSource)userImg.Source;
                 ConvertImageToBW(imageSource);
-                DisplayColorChannels(imageSource);
-                new HistogramsWindow(redBitmap, greenBitmap, blueBitmap).Show();
+                imgBrightnessProfileBtn.IsEnabled = true;
+                imgChangeBtn.IsEnabled = true;
+                imgContrastMapBtn.IsEnabled = true;
+                imgChannelsBtn.IsEnabled = true;
+                //new HistogramsWindow(redBitmap, greenBitmap, blueBitmap).Show();
             }
         }
 
@@ -56,11 +56,12 @@ namespace CV_Lab1
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri(imagePath);
-            bitmapImage.DecodePixelWidth = 400;
-            bitmapImage.DecodePixelHeight = 300;
+            bitmapImage.DecodePixelWidth = 500;
+            bitmapImage.DecodePixelHeight = 375;
             bitmapImage.EndInit();
 
             userImg.Source = bitmapImage;
+            changedImg.Source = bitmapImage;
         }
 
         private void ConvertImageToBW(BitmapSource image)
@@ -88,39 +89,7 @@ namespace CV_Lab1
             BitmapSource grayscaleBitmap = BitmapSource.Create(width, height, 1, 1, PixelFormats.Bgra32, null, pixels, width * 4);
             userImgBW.Source = grayscaleBitmap;
 
-        }
-
-        private void DisplayColorChannels(BitmapSource image)
-        {
-            int width = image.PixelWidth;
-            int height = image.PixelHeight;
-
-            byte[] redChannel = new byte[width * height];
-            byte[] greenChannel = new byte[width * height];
-            byte[] blueChannel = new byte[width * height];
-
-            byte[] pixels = new byte[width * height * 4];
-            image.CopyPixels(pixels, width * 4, 0);
-
-            for (int i = 0; i < pixels.Length; i += 4) // i += 4 because of RGBA
-            {
-                blueChannel[i / 4] = pixels[i];
-                greenChannel[i / 4] = pixels[i + 1];
-                redChannel[i / 4] = pixels[i + 2];
-            }
-
-            BitmapSource redBitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Gray8, null, redChannel, width);
-            BitmapSource greenBitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Gray8, null, greenChannel, width);
-            BitmapSource blueBitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Gray8, null, blueChannel, width);
-
-            RedChannelImage.Source = redBitmap;
-            GreenChannelImage.Source = greenBitmap;
-            BlueChannelImage.Source = blueBitmap;
-
-            this.redBitmap = redBitmap;
-            this.greenBitmap = greenBitmap;
-            this.blueBitmap = blueBitmap;
-        }
+        }       
 
         private void userImg_MouseMove(object sender, MouseEventArgs e)
         {
@@ -187,7 +156,7 @@ namespace CV_Lab1
             zoomedImage.WritePixels(new Int32Rect(0, 0, frameSize, frameSize), pixels, frameSize * 4, 0);
 
             zoomedImageImg.Source = zoomedImage;
-            zoomedImageImg.Margin = new Thickness(topLeft.X + userImg.Margin.Left, topLeft.Y, 0, 0);
+            zoomedImageImg.Margin = new Thickness(topLeft.X + userImg.Margin.Left, topLeft.Y + userImg.Margin.Top / 2.5 + zoomedImageImg.Height, 0, 0);
             Color centerPixelColor = ImageFunctions.GetPixelColor(originalSource, (int)Math.Floor(mousePos.X), (int)Math.Floor(mousePos.Y));
 
             return centerPixelColor;
@@ -200,10 +169,11 @@ namespace CV_Lab1
             
             centerPixelLabelTop.Content = string.Format($"Координаты пикселя ({mousePos.X}, {mousePos.Y})\n" +
                 $"Цвета каналов в данном пикселе Зелёный: {centerPixelColor.G}, Синий: {centerPixelColor.B}, Красный: {centerPixelColor.R}");
-            centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y - frame.Height, 0, 0);
+            //centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y - frame.Height / 2, 0, 0);
+            centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y + frame.Height, 0, 0);
 
             centerPixelLabelBottom.Content = string.Format($"Интенсивность окна равна: {(centerPixelColor.G + centerPixelColor.R + centerPixelColor.B) / 3}");
-            centerPixelLabelBottom.Margin = new Thickness(topLeft.X, topLeft.Y + frame.Height * 2 + 10, 0, 0);
+            centerPixelLabelBottom.Margin = new Thickness(topLeft.X, topLeft.Y + userImg.Margin.Top + frame.Height, 0, 0);
         }
 
         private void userImg_MouseLeave(object sender, MouseEventArgs e)
@@ -216,14 +186,31 @@ namespace CV_Lab1
 
         private void imgChangeBtn_Click(object sender, RoutedEventArgs e)
         {
-            ImageChangerWindow imageChangerWindow = new ImageChangerWindow(userImg);
+            ImageChangerWindow imageChangerWindow = new ImageChangerWindow(userImg, changedImg);
+            ChangedImageWindow changedImageWindow = new ChangedImageWindow(changedImg);
+            changedImageWindow.Show();
             imageChangerWindow.ShowDialog();
+            
         }
 
         private void imgBrightnessProfileBtn_Click(object sender, RoutedEventArgs e)
         {
             BrightnessProfileWindow brightnessWindow = new BrightnessProfileWindow(userImg);
             brightnessWindow.ShowDialog();
+        }
+
+        
+
+        private void imgContrastMapBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ContrastMapWindow contrastMapWindow = new ContrastMapWindow(userImg);
+            contrastMapWindow.ShowDialog();
+        }
+
+        private void imgChannelsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ColorChannelsWindow colorChannelsWindow = new ColorChannelsWindow(userImg);
+            colorChannelsWindow.ShowDialog();
         }
     }
 

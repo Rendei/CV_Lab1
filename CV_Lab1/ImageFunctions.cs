@@ -45,18 +45,23 @@ namespace CV_Lab1
             int width = source.PixelWidth;
             int height = source.PixelHeight;
             PixelColor[,] result = new PixelColor[width, height];
-           
+
             source.CopyPixels1(result, width * 4, 0);
-            return result;        
+            return result;
         }
 
         public static Color GetPixelColor(BitmapSource bitmap, int x, int y)
         {
-            if (x == bitmap.PixelWidth)
-                x -= 1;
-            if (y == bitmap.PixelHeight)
-                y -= 1;
-            byte[] pixel = new byte[4];            
+            if (x < 0)
+                x = 0;
+            if (y < 0)
+                y = 0;
+            if (x >= bitmap.PixelWidth)
+                x = bitmap.PixelWidth - 1;
+            if (y >= bitmap.PixelHeight)
+                y = bitmap.PixelHeight - 1;
+
+            byte[] pixel = new byte[4];
             bitmap.CopyPixels(new Int32Rect(x, y, 1, 1), pixel, 4, 0);
             return Color.FromArgb(pixel[3], pixel[2], pixel[1], pixel[0]);
         }
@@ -105,7 +110,7 @@ namespace CV_Lab1
             var contrast = Math.Pow((100.0 + threshold) / 100.0, 2);
 
             for (int i = 0; i < pixels.Length; i += 4)
-            {                
+            {
                 double oldRed = pixels[i + 2];
                 double oldGreen = pixels[i + 1];
                 double oldBlue = pixels[i];
@@ -116,7 +121,7 @@ namespace CV_Lab1
 
                 pixels[i] = CheckByteRange(blue);
                 pixels[i + 1] = CheckByteRange(green);
-                pixels[i + 2] = CheckByteRange(red);               
+                pixels[i + 2] = CheckByteRange(red);
             }
 
             BitmapSource adjustedImage = BitmapSource.Create(width, height, source.DpiX, source.DpiY, PixelFormats.Bgra32, null, pixels, stride);
@@ -164,7 +169,7 @@ namespace CV_Lab1
             int stride = width * 4;
             byte[] pixels = new byte[height * stride];
             swappedChannelsImage.CopyPixels(pixels, stride, 0);
-           
+
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -189,7 +194,7 @@ namespace CV_Lab1
 
             int width = rotatedImage.PixelWidth;
             int height = rotatedImage.PixelHeight;
-            int stride = width * 4; 
+            int stride = width * 4;
             byte[] pixels = new byte[height * stride];
             rotatedImage.CopyPixels(pixels, stride, 0);
 
@@ -217,6 +222,78 @@ namespace CV_Lab1
             rotatedImage.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
 
             return rotatedImage;
+        }
+
+        public static BitmapSource RemoveNoise(BitmapSource image, int neighborCount)
+        {
+            int width = image.PixelWidth;
+            int height = image.PixelHeight;
+
+            WriteableBitmap resultBitmap = new WriteableBitmap(image);
+
+            byte[] newPixels = new byte[width * height * 4];
+
+            image.CopyPixels(newPixels, width * 4, 0);
+
+            int[] xOffset = new int[] { };
+            int[] yOffset = new int[] { };
+
+            if (neighborCount == 4)
+            {
+                // 4 neighbors: top, bottom, left, right
+                xOffset = new int[] { 0, 0, -1, 1 };
+                yOffset = new int[] { -1, 1, 0, 0 };
+            }
+            else if (neighborCount == 8)
+            {
+                // 8 neighbors: top, bottom, left, right, top-left, top-right, bottom-left, bottom-right
+                xOffset = new int[] { 0, 0, -1, 1, -1, 1, -1, 1 };
+                yOffset = new int[] { -1, 1, 0, 0, -1, -1, 1, 1 };
+            }  
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int index = (y * width + x) * 4;
+
+                    int sumR = 0;
+                    int sumG = 0;
+                    int sumB = 0;
+                    int count = 0;
+
+                    // Iterate through the neighbors
+                    for (int i = 0; i < xOffset.Length; i++)
+                    {
+                        int neighborX = x + xOffset[i];
+                        int neighborY = y + yOffset[i];
+
+                        if (neighborX >= 0 && neighborX < width && neighborY >= 0 && neighborY < height)
+                        {
+                            int neighborIndex = (neighborY * width + neighborX) * 4;
+
+                            sumR += newPixels[neighborIndex + 2]; // Red channel
+                            sumG += newPixels[neighborIndex + 1]; // Green channel
+                            sumB += newPixels[neighborIndex]; // Blue channel
+                            count++;
+                        }
+                    }
+
+                    byte avgR = (byte)(sumR / count);
+                    byte avgG = (byte)(sumG / count);
+                    byte avgB = (byte)(sumB / count);
+
+                    newPixels[index] = avgB;
+                    newPixels[index + 1] = avgG;
+                    newPixels[index + 2] = avgR;
+                    newPixels[index + 3] = 255;
+                }
+            }
+
+            // Write the new pixel values to the result bitmap
+            resultBitmap.WritePixels(new Int32Rect(0, 0, width, height), newPixels, width * 4, 0);
+
+            return resultBitmap;
         }
 
         public static byte CheckByteRange(double value)

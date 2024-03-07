@@ -23,8 +23,7 @@ namespace CV_Lab1
     {
         public SeriesCollection RedSeriesCollection { get; set; }
         public SeriesCollection GreenSeriesCollection { get; set; }
-        public SeriesCollection BlueSeriesCollection { get; set; }
-        public int MaxValueRed { get; set; }
+        public SeriesCollection BlueSeriesCollection { get; set; }       
         public string[] Labels { get; set; }
 
         public HistogramsWindow(BitmapSource redBitmap, BitmapSource greenBitmap, BitmapSource blueBitmap)
@@ -40,7 +39,6 @@ namespace CV_Lab1
             DrawHistogram(GreenSeriesCollection, greenBitmap);
             DrawHistogram(BlueSeriesCollection, blueBitmap);
 
-            MaxValueRed = RedSeriesCollection.SelectMany(series => (ChartValues<int>)series.Values).Max();
             Labels = Enumerable.Range(0, 256).Select(x => x.ToString()).ToArray();
             DataContext = this;
         }
