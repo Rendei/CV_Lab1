@@ -22,6 +22,9 @@ namespace CV_Lab1
     public partial class MainWindow : Window
     {
         private Image changedImg;
+        private double averageWindowPixelValue;
+        private double stdWindowPixelValue;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -89,16 +92,20 @@ namespace CV_Lab1
             BitmapSource grayscaleBitmap = BitmapSource.Create(width, height, 1, 1, PixelFormats.Bgra32, null, pixels, width * 4);
             userImgBW.Source = grayscaleBitmap;
 
-        }       
+        }
+
 
         private void userImg_MouseMove(object sender, MouseEventArgs e)
         {
-            // Get the mouse position relative to the image
             Point mousePos = e.GetPosition(userImg);
 
             Point frameTopLeft = MoveFrame(mousePos);
             Color centerPixel = MoveZoomedImage(mousePos,frameTopLeft, (int)frame.Width);
-            MoveZoomedImageLabels(mousePos, frameTopLeft, centerPixel);
+            double[] intensities = CalculatePixelIntensities((BitmapSource)userImg.Source, frameTopLeft, (int)frame.Width);
+            (double average, double std) = CalculateAverageAndStd(intensities);
+            averageWindowPixelValue = average;
+            stdWindowPixelValue = std;
+            MoveZoomedImageLabels(mousePos, frameTopLeft, centerPixel);           
         }
 
         private Point MoveFrame(Point point)
@@ -149,6 +156,7 @@ namespace CV_Lab1
                     pixels[destIndex + 1] = color.G;
                     pixels[destIndex + 2] = color.R;
                     pixels[destIndex + 3] = color.A;
+
                 }
             }
             
@@ -172,8 +180,43 @@ namespace CV_Lab1
             //centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y - frame.Height / 2, 0, 0);
             centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y + frame.Height, 0, 0);
 
-            centerPixelLabelBottom.Content = string.Format($"Интенсивность окна равна: {(centerPixelColor.G + centerPixelColor.R + centerPixelColor.B) / 3}");
+            centerPixelLabelBottom.Content = string.Format($"Интенсивность центрального пикселя равна: {(centerPixelColor.G + centerPixelColor.R + centerPixelColor.B) / 3}\n" +
+                $"Среднее по окну: {this.averageWindowPixelValue} СКО: {this.stdWindowPixelValue}");
             centerPixelLabelBottom.Margin = new Thickness(topLeft.X, topLeft.Y + userImg.Margin.Top + frame.Height, 0, 0);
+        }
+
+        private double[] CalculatePixelIntensities(BitmapSource originalSource, Point topLeft, int frameSize)
+        {
+            int frameStartX = (int)Math.Round(topLeft.X);
+            int frameStartY = (int)Math.Round(topLeft.Y);
+
+            double[] intensities = new double[frameSize * frameSize];
+
+            for (int y = 0; y < frameSize; y++)
+            {
+                for (int x = 0; x < frameSize; x++)
+                {
+                    int pixelX = frameStartX + x;
+                    int pixelY = frameStartY + y;
+
+                    Color color = ImageFunctions.GetPixelColor(originalSource, pixelX, pixelY);
+
+                    double intensity = (color.R + color.G + color.B) / 3.0;
+                    intensities[y * frameSize + x] = intensity;
+                }
+            }
+
+            return intensities;
+        }
+
+        private (double, double) CalculateAverageAndStd(double[] intensities)
+        {
+            double averageIntensity = intensities.Average();
+
+            double sumOfSquares = intensities.Select(val => (val - averageIntensity) * (val - averageIntensity)).Sum();
+            double stdDev = Math.Sqrt(sumOfSquares / intensities.Length);
+
+            return (averageIntensity, stdDev);
         }
 
         private void userImg_MouseLeave(object sender, MouseEventArgs e)

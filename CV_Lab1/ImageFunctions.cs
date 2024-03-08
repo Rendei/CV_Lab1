@@ -262,7 +262,6 @@ namespace CV_Lab1
                     int sumB = 0;
                     int count = 0;
 
-                    // Iterate through the neighbors
                     for (int i = 0; i < xOffset.Length; i++)
                     {
                         int neighborX = x + xOffset[i];
@@ -290,7 +289,6 @@ namespace CV_Lab1
                 }
             }
 
-            // Write the new pixel values to the result bitmap
             resultBitmap.WritePixels(new Int32Rect(0, 0, width, height), newPixels, width * 4, 0);
 
             return resultBitmap;
