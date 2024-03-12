@@ -128,9 +128,9 @@ namespace CV_Lab1
         {
             ChartValues<HeatPoint> heatPoints = new ChartValues<HeatPoint>();
 
-            for (int y = 0; y < height / 3; y++)
+            for (int y = 0; y < height / 5; y++)
             {
-                for (int x = 0; x < width / 4; x++)
+                for (int x = 0; x < width / 5; x++)
                 {
                     heatPoints.Add(new HeatPoint(x, y, contrastMap[x, y]));
                 }

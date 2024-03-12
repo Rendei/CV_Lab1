@@ -50,6 +50,7 @@ namespace CV_Lab1
                 imgChangeBtn.IsEnabled = true;
                 imgContrastMapBtn.IsEnabled = true;
                 imgChannelsBtn.IsEnabled = true;
+                //imgWindowPreviewBtn.IsEnabled = true;
                 //new HistogramsWindow(redBitmap, greenBitmap, blueBitmap).Show();
             }
         }
@@ -175,7 +176,7 @@ namespace CV_Lab1
             centerPixelLabelTop.Visibility = Visibility.Visible;
             centerPixelLabelBottom.Visibility = Visibility.Visible;
             
-            centerPixelLabelTop.Content = string.Format($"Координаты пикселя ({mousePos.X}, {mousePos.Y})\n" +
+            centerPixelLabelTop.Content = string.Format($"Координаты пикселя ({(int)mousePos.X}, {(int)mousePos.Y})\n" +
                 $"Цвета каналов в данном пикселе Зелёный: {centerPixelColor.G}, Синий: {centerPixelColor.B}, Красный: {centerPixelColor.R}");
             //centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y - frame.Height / 2, 0, 0);
             centerPixelLabelTop.Margin = new Thickness(topLeft.X, topLeft.Y + frame.Height, 0, 0);
@@ -224,7 +225,7 @@ namespace CV_Lab1
             frame.Visibility = Visibility.Collapsed;
             centerPixelLabelTop.Visibility = Visibility.Collapsed;
             centerPixelLabelBottom.Visibility = Visibility.Collapsed;
-            zoomedImageImg.Source = null;
+            //zoomedImageImg.Source = null;
         }     
 
         private void imgChangeBtn_Click(object sender, RoutedEventArgs e)
@@ -252,8 +253,36 @@ namespace CV_Lab1
 
         private void imgChannelsBtn_Click(object sender, RoutedEventArgs e)
         {
-            ColorChannelsWindow colorChannelsWindow = new ColorChannelsWindow(userImg);
+            HistogramsWindow colorChannelsWindow = new HistogramsWindow(userImg);
             colorChannelsWindow.ShowDialog();
+        }
+
+        //private void Window_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Space)
+        //    {
+        //        SaveFileDialog saveFileDialog = new SaveFileDialog()
+        //        {
+        //            FileName = $"C:\\Users\\фвьшт\\Downloads\\{DateTime.UtcNow.Ticks}.png",
+        //            DefaultExt = ".png",
+        //        };
+
+        //        using (var stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+        //        {
+        //            var encoder = new PngBitmapEncoder();
+        //            encoder.Frames.Add(BitmapFrame.Create((BitmapSource)zoomedImageImg.Source));
+        //            encoder.Save(stream);
+        //        }
+
+        //        MessageBox.Show($"Файл успешно сохранён с названием {saveFileDialog.SafeFileName}");
+                
+        //    }
+        //}
+
+        private void imgWindowPreviewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ImagePreviewWindow previewWindow = new ImagePreviewWindow();
+            previewWindow.ShowDialog();
         }
     }
 

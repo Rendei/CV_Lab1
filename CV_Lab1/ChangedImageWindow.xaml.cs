@@ -46,6 +46,8 @@ namespace CV_Lab1
                     encoder.Frames.Add(BitmapFrame.Create((BitmapSource)changedImg.Source));
                     encoder.Save(stream);
                 }
+
+                MessageBox.Show($"Файл успешно сохранён с названием {saveFileDialog.SafeFileName}");
             }
             
         }

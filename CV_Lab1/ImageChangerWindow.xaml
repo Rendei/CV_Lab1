@@ -38,8 +38,13 @@
 
         <Button x:Name="negativeImageButton" Margin="10,195,0,0" FontSize="12" Click="negativeImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top">Сделать негатив изображения</Button>
         <Button x:Name="flipImageButton" Margin="249,195,0,0" FontSize="12" Click="flipImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Перевернуть изображение"/>
-        <Button x:Name="removeNoiseImageButton" Margin="122,299,0,0" FontSize="12" Click="removeNoiseImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Убрать шум" ToolTip="Блюрит изображение"/>
-        <Button x:Name="originalImageButton" Margin="532,266,0,0" FontSize="12" Click="originalImageButton_Click" Width="246" Height="93" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Вернуть исходное изображение"/>
+        <StackPanel x:Name="noisePanel" Margin="10,278,365,10">
+            <RadioButton x:Name="fourNeighbourButton" Content="4 соседа" HorizontalAlignment="Center" Width="100" ToolTip="Соседи берутся в виде креста"/>
+            <RadioButton x:Name="eightNeighbourButton" Content="8 соседей" HorizontalAlignment="Center"  Width="100" ToolTip="Соседи берутся в виде квадрата"/>
+            <Button x:Name="removeNoiseImageButton" Margin="0 5 0 0" Click="removeNoiseImageButton_Click" Width="186" Height="60" Content="Убрать шум" ToolTip="Блюрит изображение"/>
+        </StackPanel>
 
+        <Button x:Name="originalImageButton" Margin="532,266,0,0" FontSize="12" Click="originalImageButton_Click" Width="246" Height="93" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Вернуть исходное изображение"/>
+        <Button x:Name="scaleImageButton" Margin="544,195,0,0" FontSize="12" Click="scaleImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Нормализовать изображение"/>
     </Grid>
 </Window>

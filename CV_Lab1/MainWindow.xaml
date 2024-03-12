@@ -6,14 +6,16 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:CV_Lab1"
         mc:Ignorable="d"
-        Title="MyPhotoshop" Height="900" Width="1400">
+        Title="MyPhotoshop" Height="900" Width="1400"
+        WindowState="Maximized">
     <Grid Margin="0,0,0,-16">
-        <StackPanel x:Name="buttonPanel" Margin="1171,362,0,10">
+        <StackPanel x:Name="buttonPanel" Margin="1171,192,0,10">
             <Button x:Name="imgLoadBtn" Content="Загрузить изображение" HorizontalAlignment="Right" Margin="0 70 10 0" VerticalAlignment="Top" Height="50" Width="190" Click="LoadImage" />
             <Button x:Name="imgChangeBtn" Content="Изменить изображение" HorizontalAlignment="Right"  Margin="0 30 10 0" VerticalAlignment="Top" Height="50" Width="190" Click="imgChangeBtn_Click" IsEnabled="False"></Button>
             <Button x:Name="imgBrightnessProfileBtn" Content="Просмотреть профиль яркости" HorizontalAlignment="Right" Margin="0 30 10 0" Height="50" Width="190" FontSize="12" Click="imgBrightnessProfileBtn_Click" IsEnabled="False"></Button>
             <Button x:Name="imgContrastMapBtn" Content="Просмотреть карту контрастности" HorizontalAlignment="Right" Margin="0 30 10 0" Height="50" Width="190" FontSize="11" Click="imgContrastMapBtn_Click" IsEnabled="False"></Button>
             <Button x:Name="imgChannelsBtn" Content="Просмотреть каналы изображения" HorizontalAlignment="Right" Margin="0 30 10 0" Height="50" Width="190" FontSize="11" Click="imgChannelsBtn_Click" IsEnabled="False"></Button>
+            <Button x:Name="imgWindowPreviewBtn" Content="Просмотреть примеры окон" HorizontalAlignment="Right" Margin="0 30 10 0" Height="50" Width="190" FontSize="12" IsEnabled="True" Click="imgWindowPreviewBtn_Click"/>
         </StackPanel>
 
         <Separator HorizontalAlignment="Left" Margin="400,681,0,0" VerticalAlignment="Top" Height="73" Width="1545" RenderTransformOrigin="0.5,0.5">

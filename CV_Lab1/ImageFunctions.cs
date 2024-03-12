@@ -294,6 +294,42 @@ namespace CV_Lab1
             return resultBitmap;
         }
 
+        public static BitmapSource NormalizePixelValues(BitmapSource source)
+        {           
+            WriteableBitmap normalizedImage = new WriteableBitmap(source);
+            int width = normalizedImage.PixelWidth;
+            int height = normalizedImage.PixelHeight;
+            int stride = width * 4;
+            byte[] pixels = new byte[height * stride];
+            normalizedImage.CopyPixels(pixels, stride, 0);
+
+            double scale = 100 / 255.0;
+
+            for (int y = 0; y < source.PixelHeight; y++)
+            {
+                for (int x = 0; x < source.PixelWidth; x++)
+                {
+                    int index = (y * source.PixelWidth + x) * 4;
+                    Color originalColor = GetPixelColor(source, x, y);
+
+                    // Normalize each channel value to the range [0, 100]
+                    byte normalizedR = (byte)(originalColor.R * scale);
+                    byte normalizedG = (byte)(originalColor.G * scale);
+                    byte normalizedB = (byte)(originalColor.B * scale);
+
+                    Color normalizedColor = Color.FromArgb(originalColor.A, normalizedR, normalizedG, normalizedB);
+
+                    pixels[index] = normalizedB;
+                    pixels[index + 1] = normalizedG;
+                    pixels[index + 2] = normalizedR;
+                }
+            }
+
+            normalizedImage.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
+
+            return normalizedImage;
+        }
+
         public static byte CheckByteRange(double value)
         {
             return (byte)Math.Min(Math.Max(value, 0), 255);

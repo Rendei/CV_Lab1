@@ -25,15 +25,20 @@ namespace CV_Lab1
         public SeriesCollection GreenSeriesCollection { get; set; }
         public SeriesCollection BlueSeriesCollection { get; set; }       
         public string[] Labels { get; set; }
+        private BitmapSource redBitmap;
+        private BitmapSource greenBitmap;
+        private BitmapSource blueBitmap;
 
-        public HistogramsWindow(BitmapSource redBitmap, BitmapSource greenBitmap, BitmapSource blueBitmap)
+
+        public HistogramsWindow(Image userImg)
         {
             InitializeComponent();
 
             RedSeriesCollection = new SeriesCollection();
             GreenSeriesCollection = new SeriesCollection();
             BlueSeriesCollection = new SeriesCollection();
-
+           
+            DisplayColorChannels((BitmapSource)userImg.Source);
 
             DrawHistogram(RedSeriesCollection, redBitmap);
             DrawHistogram(GreenSeriesCollection, greenBitmap);
@@ -64,6 +69,38 @@ namespace CV_Lab1
             {
                 Values = new ChartValues<int>(histogramData)
             });
+        }
+
+        private void DisplayColorChannels(BitmapSource image)
+        {
+            int width = image.PixelWidth;
+            int height = image.PixelHeight;
+
+            byte[] redChannel = new byte[width * height];
+            byte[] greenChannel = new byte[width * height];
+            byte[] blueChannel = new byte[width * height];
+
+            byte[] pixels = new byte[width * height * 4];
+            image.CopyPixels(pixels, width * 4, 0);
+
+            for (int i = 0; i < pixels.Length; i += 4) // i += 4 because of RGBA
+            {
+                blueChannel[i / 4] = pixels[i];
+                greenChannel[i / 4] = pixels[i + 1];
+                redChannel[i / 4] = pixels[i + 2];
+            }
+
+            BitmapSource redBitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Gray8, null, redChannel, width);
+            BitmapSource greenBitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Gray8, null, greenChannel, width);
+            BitmapSource blueBitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Gray8, null, blueChannel, width);
+
+            RedChannelImage.Source = redBitmap;
+            GreenChannelImage.Source = greenBitmap;
+            BlueChannelImage.Source = blueBitmap;
+
+            this.redBitmap = redBitmap;
+            this.greenBitmap = greenBitmap;
+            this.blueBitmap = blueBitmap;
         }
     }
 }

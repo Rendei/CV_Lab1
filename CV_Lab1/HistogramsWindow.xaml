@@ -6,8 +6,8 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:CV_Lab1"
         mc:Ignorable="d"
-        Title="Гистограммы каналов" Height="1000" MinWidth="1400"
-        ResizeMode="CanMinimize"       
+        Title="Гистограммы каналов" Height="700" MinWidth="1400"
+        WindowState="Maximized"
         >
     <Grid Margin="0,0,0,-6">
         <!--<Label Content="Гистограмма красного канала" HorizontalAlignment="Left" Margin="31,0,0,270"/>
@@ -28,8 +28,8 @@
 
         <Label Content="Гистограмма синего канала" HorizontalAlignment="Left" Margin="601,0,0,270"/>
         <Polygon  x:Name="BlueHistogram" Margin="601,60,0,59" Stroke="Blue" Height="200" Width="200"/>-->
-        <Label Content="Гистограмма красного канала" HorizontalAlignment="Center" Margin="0,10,0,0"> </Label>
-        <lvc:CartesianChart Margin="67,35,33,0" Series="{Binding RedSeriesCollection}" Width="1300" Height="250" VerticalAlignment="Top">
+        <Label Content="Гистограмма красного канала" HorizontalAlignment="Left" Margin="815,30,0,-20"></Label>
+        <lvc:CartesianChart Margin="269,55,31,0" Series="{Binding RedSeriesCollection}" Width="1300" Height="170" VerticalAlignment="Top" >
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Labels="{Binding Labels}"/>
             </lvc:CartesianChart.AxisX>
@@ -38,8 +38,8 @@
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
 
-        <Label Content="Гистограмма зелёного канала" HorizontalAlignment="Center" Margin="0,310,0,0"></Label>
-        <lvc:CartesianChart Margin="67,340,33,0" Series="{Binding GreenSeriesCollection}" Width="1300" Height="250" VerticalAlignment="Top">
+        <Label Content="Гистограмма зелёного канала" HorizontalAlignment="Left" Margin="815,250,0,-20"></Label>
+        <lvc:CartesianChart Margin="269,270,33,0" Series="{Binding GreenSeriesCollection}" Width="1300" Height="170" VerticalAlignment="Top">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Labels="{Binding Labels}"/>
             </lvc:CartesianChart.AxisX>
@@ -48,8 +48,8 @@
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
 
-        <Label Content="Гистограмма синего канала" HorizontalAlignment="Center" Margin="0,619,0,-19"></Label>
-        <lvc:CartesianChart Margin="67,655,33,0" Series="{Binding BlueSeriesCollection}" VerticalAlignment="Top" Width="1300" Height="250">
+        <Label Content="Гистограмма синего канала" HorizontalAlignment="Left" Margin="815,470,0,-20"></Label>
+        <lvc:CartesianChart Margin="269,490,33,0" Series="{Binding BlueSeriesCollection}" VerticalAlignment="Top" Width="1300" Height="170">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Labels="{Binding Labels}"/>
             </lvc:CartesianChart.AxisX>
@@ -57,5 +57,11 @@
                 <lvc:Axis Title="Частота"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
+
+        <Image x:Name="RedChannelImage" HorizontalAlignment="Left" Height="200" Margin="10,30,0,0" VerticalAlignment="Top" Width="250"/>
+        <Image x:Name="GreenChannelImage" HorizontalAlignment="Left" Height="200" Margin="10,260,0,0" VerticalAlignment="Top" Width="250"/>
+        <Image x:Name="BlueChannelImage" HorizontalAlignment="Left" Height="200" Margin="10,480,0,0" VerticalAlignment="Top" Width="250"/>
+        
+        
     </Grid>
 </Window>

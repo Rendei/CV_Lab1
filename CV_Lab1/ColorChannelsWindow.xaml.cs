@@ -65,7 +65,7 @@ namespace CV_Lab1
         {
             if (redBitmap == null || greenBitmap == null || blueBitmap == null)
                 return;
-            new HistogramsWindow(redBitmap, greenBitmap, blueBitmap).Show();
+           // new HistogramsWindow(redBitmap, greenBitmap, blueBitmap).Show();
         }
     }
 }

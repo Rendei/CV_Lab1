@@ -69,8 +69,8 @@ namespace CV_Lab1
 
             BrightnessProfile.Clear();
             BrightnessProfile.Add(new LineSeries
-            {
-                Title = $"Строка {chosenRow}",
+            {                
+                Title = $"Y",
                 Values = brightnessValues
             });
         }    
