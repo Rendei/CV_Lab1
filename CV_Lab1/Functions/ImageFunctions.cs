@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CV_Lab1
+namespace CV_Lab1.Functions
 {
     public class ImageFunctions
     {
@@ -33,7 +33,7 @@ namespace CV_Lab1
                 Blue = (byte)(c.Blue / divisor),
                 Green = (byte)(c.Green / divisor),
                 Red = (byte)(c.Red / divisor),
-                Alpha = (byte)(c.Alpha),
+                Alpha = c.Alpha,
             };
         }
 
@@ -115,9 +115,9 @@ namespace CV_Lab1
                 double oldGreen = pixels[i + 1];
                 double oldBlue = pixels[i];
 
-                double red = ((((oldRed / 255.0) - 0.5) * contrast) + 0.5) * 255.0;
-                double green = ((((oldGreen / 255.0) - 0.5) * contrast) + 0.5) * 255.0;
-                double blue = ((((oldBlue / 255.0) - 0.5) * contrast) + 0.5) * 255.0;
+                double red = ((oldRed / 255.0 - 0.5) * contrast + 0.5) * 255.0;
+                double green = ((oldGreen / 255.0 - 0.5) * contrast + 0.5) * 255.0;
+                double blue = ((oldBlue / 255.0 - 0.5) * contrast + 0.5) * 255.0;
 
                 pixels[i] = CheckByteRange(blue);
                 pixels[i + 1] = CheckByteRange(green);
@@ -249,7 +249,7 @@ namespace CV_Lab1
                 // 8 neighbors: top, bottom, left, right, top-left, top-right, bottom-left, bottom-right
                 xOffset = new int[] { 0, 0, -1, 1, -1, 1, -1, 1 };
                 yOffset = new int[] { -1, 1, 0, 0, -1, -1, 1, 1 };
-            }  
+            }
 
             for (int y = 0; y < height; y++)
             {
@@ -295,7 +295,7 @@ namespace CV_Lab1
         }
 
         public static BitmapSource NormalizePixelValues(BitmapSource source)
-        {           
+        {
             WriteableBitmap normalizedImage = new WriteableBitmap(source);
             int width = normalizedImage.PixelWidth;
             int height = normalizedImage.PixelHeight;

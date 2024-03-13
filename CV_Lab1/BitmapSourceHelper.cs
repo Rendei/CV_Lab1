@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static CV_Lab1.ImageFunctions;
+using static CV_Lab1.Functions.ImageFunctions;
 using System.Windows.Media.Imaging;
 
 namespace CV_Lab1

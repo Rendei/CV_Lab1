@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
-using static CV_Lab1.ImageFunctions;
+using static CV_Lab1.Functions.ImageFunctions;
 
 namespace CV_Lab1
 {
