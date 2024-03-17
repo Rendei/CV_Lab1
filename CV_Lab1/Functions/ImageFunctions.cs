@@ -334,5 +334,10 @@ namespace CV_Lab1.Functions
         {
             return (byte)Math.Min(Math.Max(value, 0), 255);
         }
+
+        public static byte GetAverageIntensity(Color color)
+        {
+            return (byte)((color.R + color.G + color.B) / 3);
+        }
     }
 }
