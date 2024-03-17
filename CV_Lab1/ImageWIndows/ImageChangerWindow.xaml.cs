@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CV_Lab1.Functions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -15,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using static CV_Lab1.Functions.ImageFunctions;
+using static CV_Lab1.Functions.ChromaticityFunctions;
+using System.Text.RegularExpressions;
 
 namespace CV_Lab1
 {
@@ -31,6 +34,19 @@ namespace CV_Lab1
         private Image userImg;
         private Image changedImg;
         private Image tmpChangedImg = new Image();
+
+        private long _contactNo;
+        public long contactNo
+        {
+            get { return _contactNo; }
+            set
+            {
+                if (value == _contactNo)
+                    return;
+                _contactNo = value;
+                OnPropertyChanged(new DependencyPropertyChangedEventArgs());
+            }
+        }
 
         public ImageChangerWindow(Image userImg, Image changedImg)
         {
@@ -181,6 +197,92 @@ namespace CV_Lab1
 
             changedImg.Source = NormalizePixelValues((BitmapSource)changedImg.Source);
             tmpChangedImg.Source = changedImg.Source;
+        }
+
+        private void logarithmicTransformImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            changedImg.Source = ApplyLogarithmicTransform((BitmapSource)changedImg.Source);
+            tmpChangedImg.Source = changedImg.Source;
+        }
+
+        private void exponentionalTransformImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+            try
+            {
+                double exponent = double.Parse(exponentTextBox.Text);
+                changedImg.Source = ApplyExponentialTransform((BitmapSource)changedImg.Source, exponent);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            catch
+            {
+                MessageBox.Show("Введите верное значение степени!");
+            }
+            
+        }        
+
+        private void binaryTransformImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            try
+            {
+                byte threshold = byte.Parse(binaryTextBox.Text);
+                changedImg.Source = ApplyBinaryTransform((BitmapSource)changedImg.Source, threshold);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            catch
+            {
+                MessageBox.Show("Введите значение порога до 255!");
+            }
+            
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void cutTransformImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+            byte minValue;
+            byte maxValue;
+
+            if (byte.TryParse(cutMinTextBox.Text, out minValue) && byte.TryParse(cutMaxTextBox.Text, out maxValue))
+            {
+                if (minValue < maxValue)
+                {
+                    var dialogResult = MessageBox.Show("Привести пиксели вне диапазона к константным значениям?", "Перевод пикселей", MessageBoxButton.YesNo);
+
+                    if (dialogResult == MessageBoxResult.Yes)
+                    {
+                        changedImg.Source = CutPixelRange((BitmapSource)changedImg.Source, minValue, maxValue, 127, true);
+                        tmpChangedImg.Source = changedImg.Source;
+                    }
+                    else
+                    {
+                        changedImg.Source = CutPixelRange((BitmapSource)changedImg.Source, minValue, maxValue);
+                        tmpChangedImg.Source = changedImg.Source;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Минимальное значение должно быть меньше максимального!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Введите значение минимума и максимума до 255!");
+            }
+            
         }
     }
 }

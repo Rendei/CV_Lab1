@@ -5,46 +5,78 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CV_Lab1"
         mc:Ignorable="d"
-        Title="Изменение изображения" Height="406" Width="800"
+        Title="Изменение изображения" Height="430" Width="800"
         ResizeMode="CanMinimize">
-    <Grid Height="396" VerticalAlignment="Top">
-        <StackPanel x:Name="colorPanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="180" Margin="10,10,0,0" Width="196">
-            <Label Content="Повысить интесивность канала" FontSize="12" HorizontalAlignment="Center"></Label>
-            <RadioButton x:Name="redChannelRadioButton" Content="Красный" Checked="RadioButton_Checked"/>
-            <RadioButton x:Name="greenChannelRadioButton" Content="Зелёный" Checked="RadioButton_Checked"/>
-            <RadioButton x:Name="blueChannelRadioButton" Content="Синий" Checked="RadioButton_Checked"/>
-            <Slider x:Name="channelBrightnessSlider" Width="120" Margin="0 20 0 0" Minimum="-255" Maximum="255" Value="0" ValueChanged="channelBrightnessSlider_ValueChanged"/>
-        </StackPanel>
+    <Grid Height="430" VerticalAlignment="Top">
+        <TabControl>
+            <TabItem Header="Общие функции">
+                <Grid>
+                    <StackPanel x:Name="colorPanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="180" Margin="10,10,0,0" Width="196">
+                        <Label Content="Повысить интесивность канала" FontSize="12" HorizontalAlignment="Center"></Label>
+                        <RadioButton x:Name="redChannelRadioButton" Content="Красный" Checked="RadioButton_Checked"/>
+                        <RadioButton x:Name="greenChannelRadioButton" Content="Зелёный" Checked="RadioButton_Checked"/>
+                        <RadioButton x:Name="blueChannelRadioButton" Content="Синий" Checked="RadioButton_Checked"/>
+                        <Slider x:Name="channelBrightnessSlider" Width="120" Margin="0 20 0 0" Minimum="-255" Maximum="255" Value="0" ValueChanged="channelBrightnessSlider_ValueChanged"/>
+                    </StackPanel>
 
-        <StackPanel Margin="206,11,322,206">
-            <Label Content="Повысить контрастность изображения" HorizontalAlignment="Center"/>
-            <Slider x:Name="contrastSlider" Margin="0 60 0 0" Width="120" Minimum="-100" Maximum="100" Value="0" ValueChanged="contrastSlider_ValueChanged"/>
-        </StackPanel>
+                    <StackPanel Margin="206,11,322,206">
+                        <Label Content="Повысить контрастность изображения" HorizontalAlignment="Center"/>
+                        <Slider x:Name="contrastSlider" Margin="0 60 0 0" Width="120" Minimum="-100" Maximum="100" Value="0" ValueChanged="contrastSlider_ValueChanged"/>
+                    </StackPanel>
 
-        <StackPanel Margin="483,11,10,206">
-            <Label Content="Обменять данные каналов" HorizontalAlignment="Center"></Label>
-            <ComboBox x:Name="firstChannelComboBox" SelectedValue="">
-                <ComboBoxItem IsSelected="True" Content="Красный" Tag="2" ></ComboBoxItem>
-                <ComboBoxItem Content="Зелёный" Tag="1"></ComboBoxItem>
-                <ComboBoxItem Content="Синий" Tag="3"></ComboBoxItem>
-            </ComboBox>
-            <ComboBox x:Name="secondChannelComboBox" Margin="0 10 0 0">
-                <ComboBoxItem Content="Красный" Tag="2"/>
-                <ComboBoxItem IsSelected="True" Content="Зелёный" Tag="1"/>
-                <ComboBoxItem Content="Синий" Tag="3"/>
-            </ComboBox>
-            <Button x:Name="changeChannelsButton" Margin="0 20 0 0 " Click="changeChannelsButton_Click">Обменять</Button>
-        </StackPanel>
+                    <StackPanel Margin="483,11,10,206">
+                        <Label Content="Обменять данные каналов" HorizontalAlignment="Center"></Label>
+                        <ComboBox x:Name="firstChannelComboBox" SelectedValue="">
+                            <ComboBoxItem IsSelected="True" Content="Красный" Tag="2" ></ComboBoxItem>
+                            <ComboBoxItem Content="Зелёный" Tag="1"></ComboBoxItem>
+                            <ComboBoxItem Content="Синий" Tag="3"></ComboBoxItem>
+                        </ComboBox>
+                        <ComboBox x:Name="secondChannelComboBox" Margin="0 10 0 0">
+                            <ComboBoxItem Content="Красный" Tag="2"/>
+                            <ComboBoxItem IsSelected="True" Content="Зелёный" Tag="1"/>
+                            <ComboBoxItem Content="Синий" Tag="3"/>
+                        </ComboBox>
+                        <Button x:Name="changeChannelsButton" Margin="0 20 0 0 " Click="changeChannelsButton_Click">Обменять</Button>
+                    </StackPanel>
 
-        <Button x:Name="negativeImageButton" Margin="10,195,0,0" FontSize="12" Click="negativeImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top">Сделать негатив изображения</Button>
-        <Button x:Name="flipImageButton" Margin="249,195,0,0" FontSize="12" Click="flipImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Перевернуть изображение"/>
-        <StackPanel x:Name="noisePanel" Margin="10,278,365,10">
-            <RadioButton x:Name="fourNeighbourButton" Content="4 соседа" HorizontalAlignment="Center" Width="100" ToolTip="Соседи берутся в виде креста"/>
-            <RadioButton x:Name="eightNeighbourButton" Content="8 соседей" HorizontalAlignment="Center"  Width="100" ToolTip="Соседи берутся в виде квадрата"/>
-            <Button x:Name="removeNoiseImageButton" Margin="0 5 0 0" Click="removeNoiseImageButton_Click" Width="186" Height="60" Content="Убрать шум" ToolTip="Блюрит изображение"/>
-        </StackPanel>
+                    <Button x:Name="negativeImageButton" Margin="10,195,0,0" FontSize="12" Click="negativeImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top">Сделать негатив изображения</Button>
+                    <Button x:Name="flipImageButton" Margin="249,195,0,0" FontSize="12" Click="flipImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Перевернуть изображение"/>
+                    <StackPanel x:Name="noisePanel" Margin="10,278,365,10">
+                        <RadioButton x:Name="fourNeighbourButton" Content="4 соседа" HorizontalAlignment="Center" Width="100" ToolTip="Соседи берутся в виде креста"/>
+                        <RadioButton x:Name="eightNeighbourButton" Content="8 соседей" HorizontalAlignment="Center"  Width="100" ToolTip="Соседи берутся в виде квадрата"/>
+                        <Button x:Name="removeNoiseImageButton" Margin="0 5 0 0" Click="removeNoiseImageButton_Click" Width="186" Height="60" Content="Убрать шум" ToolTip="Блюрит изображение"/>
+                    </StackPanel>
 
-        <Button x:Name="originalImageButton" Margin="532,266,0,0" FontSize="12" Click="originalImageButton_Click" Width="246" Height="93" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Вернуть исходное изображение"/>
-        <Button x:Name="scaleImageButton" Margin="544,195,0,0" FontSize="12" Click="scaleImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Нормализовать изображение"/>
+                    <Button x:Name="originalImageButton" Margin="527,284,0,0" FontSize="12" Click="originalImageButton_Click" Width="246" Height="93" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Вернуть исходное изображение"/>
+                    <Button x:Name="scaleImageButton" Margin="544,195,0,0" FontSize="12" Click="scaleImageButton_Click" Width="186" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Нормализовать изображение"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Цветность" Height="20" VerticalAlignment="Top">
+                <Grid>
+                    <Button x:Name="logarithmicTransformImageButton" Margin="50,30,0,0" FontSize="12" Click="logarithmicTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить логарифмическое преобразование"></Button>
+                    <StackPanel Margin="376,0,10,211">
+                        <Button x:Name="exponentionalTransformImageButton" Margin="0,30,0,0" FontSize="12" Click="exponentionalTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить степенное преобразование"></Button>
+                        <Label Content="Укажите степень" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="exponentTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="1,191,423,10">
+                        <Button x:Name="binaryTransformImageButton" Margin="0,30,0,0" FontSize="12" Click="binaryTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить бинарное преобразование"></Button>
+                        <Label Content="Укажите порог" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="binaryTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="376,191,10,10">
+                        <Button x:Name="cutTransformImageButton" Margin="0,30,0,0" FontSize="12" Click="cutTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить бинарное преобразование"></Button>
+                        <Grid>
+                            <Label Content="Укажите минимум" Margin="85,5,-85,-5"/>
+                            <TextBox x:Name="cutMinTextBox" PreviewTextInput="NumberValidationTextBox" Width="50" Height="30" HorizontalAlignment="Left" Margin="107,35,0,-35"/>
+                            <Label Content="Укажите максимум"  Margin="212,5,-212,-5"/>
+                            <TextBox x:Name="cutMaxTextBox" PreviewTextInput="NumberValidationTextBox" Width="50" Height="30" HorizontalAlignment="Left" Margin="248,35,0,-35"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
