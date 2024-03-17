@@ -119,11 +119,6 @@ namespace CV_Lab1
             return contrast;
         }
 
-        private byte GetAverageIntensity(Color color)
-        {
-            return (byte)((color.R + color.G + color.B) / 3);
-        }
-
         private void UpdateContrastMapChart(double[,] contrastMap, int width, int height)
         {
             ChartValues<HeatPoint> heatPoints = new ChartValues<HeatPoint>();
