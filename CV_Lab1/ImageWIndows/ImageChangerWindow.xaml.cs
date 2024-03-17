@@ -262,14 +262,14 @@ namespace CV_Lab1
                 {
                     var dialogResult = MessageBox.Show("Привести пиксели вне диапазона к константным значениям?", "Перевод пикселей", MessageBoxButton.YesNo);
 
-                    if (dialogResult == MessageBoxResult.Yes)
+                    if (dialogResult == MessageBoxResult.No)
                     {
-                        changedImg.Source = CutPixelRange((BitmapSource)changedImg.Source, minValue, maxValue, 127, true);
+                        changedImg.Source = CutPixelRange((BitmapSource)changedImg.Source, minValue, maxValue, keepOriginal: false);
                         tmpChangedImg.Source = changedImg.Source;
                     }
                     else
                     {
-                        changedImg.Source = CutPixelRange((BitmapSource)changedImg.Source, minValue, maxValue);
+                        changedImg.Source = CutPixelRange((BitmapSource)changedImg.Source, minValue, maxValue, 50, true);
                         tmpChangedImg.Source = changedImg.Source;
                     }
                 }

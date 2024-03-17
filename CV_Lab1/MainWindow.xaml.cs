@@ -226,7 +226,7 @@ namespace CV_Lab1
             frame.Visibility = Visibility.Collapsed;
             centerPixelLabelTop.Visibility = Visibility.Collapsed;
             centerPixelLabelBottom.Visibility = Visibility.Collapsed;
-            //zoomedImageImg.Source = null;
+            zoomedImageImg.Source = null;
         }     
 
         private void imgChangeBtn_Click(object sender, RoutedEventArgs e)

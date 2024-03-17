@@ -77,7 +77,7 @@ namespace CV_Lab1.Functions
             return binaryImage;
         }
 
-        public static BitmapSource CutPixelRange(BitmapSource source, byte minThreshold, byte maxThreshold, byte constantValue = 0, bool keepOriginal = false)
+        public static BitmapSource CutPixelRange(BitmapSource source, byte minThreshold, byte maxThreshold, byte constantValue = 30, bool keepOriginal = false)
         {
             WriteableBitmap cutImage = new WriteableBitmap(source);
 
@@ -93,14 +93,14 @@ namespace CV_Lab1.Functions
 
                 if (grayValue < minThreshold || grayValue > maxThreshold)
                 {
-                    if (keepOriginal)
+                    if (!keepOriginal)
                     {
                         continue;
                     }
                     else
                     {
                         pixels[i] = constantValue;       // Blue
-                        pixels[i + 1] = constantValue;   // Green
+                        pixels[i + 1] = 0;               // Green
                         pixels[i + 2] = constantValue;   // Red
                     }
                 }
