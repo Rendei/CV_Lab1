@@ -152,11 +152,13 @@ namespace CV_Lab1.Functions
 
                     int index = (y * width + x) * 4; 
                     //normalize pixel values
-                    for (int c = 0; c < 3; c++)
-                    {
-                        byte newValue = CheckByteRange(sum[c] / weightSum);
-                        pixels[index + c] = newValue;
-                    }
+                    
+                    byte newValueB = CheckByteRange(sum[0] / weightSum);
+                    byte newValueG = CheckByteRange(sum[1] / weightSum);
+                    byte newValueR = CheckByteRange(sum[2] / weightSum);
+                    pixels[index] = newValueB;                    
+                    pixels[index + 1] = newValueG;                    
+                    pixels[index + 2] = newValueR;                    
                 }
             }
 
@@ -229,14 +231,15 @@ namespace CV_Lab1.Functions
                         }
                     }
 
-                    Array.Sort(neighborhoodValues);
+                    //Array.Sort(neighborhoodValues);                    
+                    //byte medianValue = (byte)neighborhoodValues[neighborhoodValues.Length / 2 + 1];
 
-                    byte medianValue = (byte)neighborhoodValues[neighborhoodValues.Length / 2];
+                    byte meanValue = (byte)neighborhoodValues.Average();
 
                     int pixelIndexToUpdate = (y * width + x) * 4;
-                    pixels[pixelIndexToUpdate] = medianValue;
-                    pixels[pixelIndexToUpdate + 1] = medianValue;
-                    pixels[pixelIndexToUpdate + 2] = medianValue;
+                    pixels[pixelIndexToUpdate] = meanValue;
+                    pixels[pixelIndexToUpdate + 1] = meanValue;
+                    pixels[pixelIndexToUpdate + 2] = meanValue;
                 }
             }
 

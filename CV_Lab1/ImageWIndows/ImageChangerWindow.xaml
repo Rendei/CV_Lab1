@@ -87,6 +87,12 @@
                         <Label Content="Укажите значение сигмы" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="gaussianTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
                     </StackPanel>
+
+                    <StackPanel Margin="397,191,36,10">
+                        <Button x:Name="sigmaFilterImageButton" Margin="0,30,0,0" FontSize="12" Click="sigmaFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить сглаживание сигма фильтром"></Button>
+                        <Label Content="Укажите значение сигмы" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="sigmaTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             

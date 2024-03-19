@@ -312,10 +312,17 @@ namespace CV_Lab1
  
                 double sigma = double.Parse(gaussianTextBox.Text);
                 changedImg.Source = ApplyGaussianFilter((BitmapSource)changedImg.Source, sigma);
-                tmpChangedImg.Source = changedImg.Source;
-        
-          
-            
+                tmpChangedImg.Source = changedImg.Source;                             
+        }
+
+        private void sigmaFilterImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            double sigma = double.Parse(sigmaTextBox.Text);
+            changedImg.Source = ApplySigmaFilter((BitmapSource)changedImg.Source, sigma);
+            tmpChangedImg.Source = changedImg.Source;
         }
     }
 }
