@@ -17,6 +17,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using static CV_Lab1.Functions.ImageFunctions;
 using static CV_Lab1.Functions.ChromaticityFunctions;
+using static CV_Lab1.Functions.SmoothingFunctions;
 using System.Text.RegularExpressions;
 
 namespace CV_Lab1
@@ -212,6 +213,7 @@ namespace CV_Lab1
         {
             if (userImg.Source == null)
                 return;
+
             try
             {
                 double exponent = double.Parse(exponentTextBox.Text);
@@ -282,6 +284,37 @@ namespace CV_Lab1
             {
                 MessageBox.Show("Введите значение минимума и максимума до 255!");
             }
+            
+        }
+
+        private void rectangularFilterImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            changedImg.Source = ApplyRectangularFilter((BitmapSource)changedImg.Source);
+            tmpChangedImg.Source = changedImg.Source;
+        }
+
+        private void medianFilterImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            changedImg.Source = ApplyMedianFilter((BitmapSource)changedImg.Source);
+            tmpChangedImg.Source = changedImg.Source;
+        }
+
+        private void gaussianFilterImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+ 
+                double sigma = double.Parse(gaussianTextBox.Text);
+                changedImg.Source = ApplyGaussianFilter((BitmapSource)changedImg.Source, sigma);
+                tmpChangedImg.Source = changedImg.Source;
+        
+          
             
         }
     }

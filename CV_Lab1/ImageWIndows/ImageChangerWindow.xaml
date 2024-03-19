@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CV_Lab1"
         mc:Ignorable="d"
-        Title="Изменение изображения" Height="430" Width="800"
+        Title="Изменение изображения" Height="450" Width="800"
         ResizeMode="CanMinimize">
     <Grid Height="430" VerticalAlignment="Top">
         <TabControl>
@@ -52,7 +52,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Цветность" Height="20" VerticalAlignment="Top">
-                <Grid>
+                <Grid Height="411">
                     <Button x:Name="logarithmicTransformImageButton" Margin="50,30,0,0" FontSize="12" Click="logarithmicTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить логарифмическое преобразование"></Button>
                     <StackPanel Margin="376,0,10,211">
                         <Button x:Name="exponentionalTransformImageButton" Margin="0,30,0,0" FontSize="12" Click="exponentionalTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить степенное преобразование"></Button>
@@ -67,7 +67,7 @@
                     </StackPanel>
 
                     <StackPanel Margin="376,191,10,10">
-                        <Button x:Name="cutTransformImageButton" Margin="0,30,0,0" FontSize="12" Click="cutTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить бинарное преобразование"></Button>
+                        <Button x:Name="cutTransformImageButton" Margin="0,30,0,0" FontSize="12" Click="cutTransformImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить вырезку диапазона яркостей"></Button>
                         <Grid>
                             <Label Content="Укажите минимум" Margin="85,5,-85,-5"/>
                             <TextBox x:Name="cutMinTextBox" PreviewTextInput="NumberValidationTextBox" Width="50" Height="30" HorizontalAlignment="Left" Margin="107,35,0,-35"/>
@@ -77,6 +77,19 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+
+            <TabItem Header="Сглаживание">
+                <Grid>
+                    <Button x:Name="rectangularFilterImageButton" Margin="50,30,0,0" FontSize="11" Click="rectangularFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить сглаживание прямоугольным фильтром"></Button>
+                    <Button x:Name="medianFilterImageButton" Margin="440,30,0,0" FontSize="11" Click="medianFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить сглаживание медианным фильтром"></Button>
+                    <StackPanel Margin="1,191,423,10">
+                        <Button x:Name="gaussianFilterImageButton" Margin="0,30,0,0" FontSize="12" Click="gaussianFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить сглаживание фильтром Гаусса"></Button>
+                        <Label Content="Укажите значение сигмы" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="gaussianTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            
         </TabControl>
     </Grid>
 </Window>

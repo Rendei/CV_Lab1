@@ -315,9 +315,7 @@ namespace CV_Lab1.Functions
                     // Normalize each channel value to the range [0, 100]
                     byte normalizedR = (byte)(originalColor.R * scale);
                     byte normalizedG = (byte)(originalColor.G * scale);
-                    byte normalizedB = (byte)(originalColor.B * scale);
-
-                    Color normalizedColor = Color.FromArgb(originalColor.A, normalizedR, normalizedG, normalizedB);
+                    byte normalizedB = (byte)(originalColor.B * scale);                   
 
                     pixels[index] = normalizedB;
                     pixels[index + 1] = normalizedG;
