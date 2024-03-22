@@ -328,6 +328,37 @@ namespace CV_Lab1.Functions
             return normalizedImage;
         }
 
+        public static BitmapSource CalculateDifferenceMap(BitmapSource firstImage, BitmapSource secondImage)
+        {
+            WriteableBitmap differenceMap = new WriteableBitmap(firstImage);
+            int width = firstImage.PixelWidth;
+            int height = firstImage.PixelHeight;
+            int stride = width * 4;
+            byte[] pixels = new byte[height * stride];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int index = (y * width + x) * 4;
+                    Color firstColor = GetPixelColor(firstImage, x, y);
+                    Color secondColor = GetPixelColor(secondImage, x, y);
+                   
+                    byte differenceR = (byte)Math.Abs(firstColor.R - secondColor.R);
+                    byte differenceG = (byte)Math.Abs(firstColor.G - secondColor.G);
+                    byte differenceB = (byte)Math.Abs(firstColor.B - secondColor.B);                    
+
+                    pixels[index] = differenceB;
+                    pixels[index + 1] = differenceG;
+                    pixels[index + 2] = differenceR;
+                }
+            }
+
+            differenceMap.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
+
+            return differenceMap;
+        }
+
         public static byte CheckByteRange(double value)
         {
             return (byte)Math.Min(Math.Max(value, 0), 255);

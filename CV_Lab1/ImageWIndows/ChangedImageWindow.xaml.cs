@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static CV_Lab1.Functions.ImageFunctions;
 
 namespace CV_Lab1
 {
@@ -21,12 +22,14 @@ namespace CV_Lab1
     /// </summary>
     public partial class ChangedImageWindow : Window
     {
+        private Image userImg;
         public Image changedImg { get; set; }
-        public ChangedImageWindow(Image changedImg)
+        public ChangedImageWindow(Image changedImg, Image userImg)
         {
             InitializeComponent();
             this.changedImg = changedImg;
             DataContext = this;
+            this.userImg = userImg;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -50,6 +53,12 @@ namespace CV_Lab1
                 MessageBox.Show($"Файл успешно сохранён с названием {saveFileDialog.SafeFileName}");
             }
             
+        }
+
+        private void differenceMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapSource differenceMap = CalculateDifferenceMap((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source);
+            new ChangedImageWindow(new Image() { Source = differenceMap }, userImg).ShowDialog();
         }
     }
 }

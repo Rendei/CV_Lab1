@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using static CV_Lab1.Functions.ImageFunctions;
 using static CV_Lab1.Functions.ChromaticityFunctions;
 using static CV_Lab1.Functions.SmoothingFunctions;
+using static CV_Lab1.Functions.AntialiasingFunction;
 using System.Text.RegularExpressions;
 
 namespace CV_Lab1
@@ -322,6 +323,16 @@ namespace CV_Lab1
 
             double sigma = double.Parse(sigmaTextBox.Text);
             changedImg.Source = ApplySigmaFilter((BitmapSource)changedImg.Source, sigma);
+            tmpChangedImg.Source = changedImg.Source;
+        }
+
+        private void unmaskedSharpImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            double lambda = double.Parse(lambdaTextBox.Text);
+            changedImg.Source = ApplyUnsharpMasking((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source, lambda);
             tmpChangedImg.Source = changedImg.Source;
         }
     }

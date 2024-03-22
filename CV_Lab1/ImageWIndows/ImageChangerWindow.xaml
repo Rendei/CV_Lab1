@@ -95,7 +95,17 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            
+
+            <TabItem Header="Сглаживание">
+                <Grid>
+                    <StackPanel Margin="212,100,212,100">
+                        <Button x:Name="unmaskedSharpImageButton" Margin="0,30,0,0" FontSize="12" Click="unmaskedSharpImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить нерезкое маскирование"></Button>
+                        <Label Content="Укажите значение лямбды" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="lambdaTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
         </TabControl>
     </Grid>
 </Window>

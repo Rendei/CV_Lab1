@@ -232,7 +232,7 @@ namespace CV_Lab1
         private void imgChangeBtn_Click(object sender, RoutedEventArgs e)
         {
             ImageChangerWindow imageChangerWindow = new ImageChangerWindow(userImg, changedImg);
-            ChangedImageWindow changedImageWindow = new ChangedImageWindow(changedImg);
+            ChangedImageWindow changedImageWindow = new ChangedImageWindow(changedImg, userImg);
             changedImageWindow.Show();
             imageChangerWindow.ShowDialog();
             
