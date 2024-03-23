@@ -9,7 +9,9 @@
         ResizeMode="CanMinimize">
     <Grid>
         <Image x:Name="changedUserImg"  Height="600" Width="500" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,40,0,0" Source="{Binding changedImg.Source}"/>
-        <Button x:Name="differenceMapButton" Content="Посмотреть карту абсолютной контрастности" Margin="153,502,107,112" Height="70" Click="differenceMapButton_Click"/>
+        <!--<Button x:Name="differenceMapButton" Content="Посмотреть карту абсолютной контрастности" Margin="153,502,107,112" Height="70" Click="differenceMapButton_Click"/>-->
+        <Button x:Name="calculateSharpMetricButton" Margin="153,502,107,132" Click="calculateSharpMetricButton_Click" Content="Вычислить метрику резкости"></Button>
+        <Label x:Name="sharpMetricLabel" Margin="223,557,177,77" Width="300" Height="50"></Label>
         <Button Content="Сохранить изображение" Margin="153,612,107,10" Click="Button_Click"></Button>
     </Grid>
 </Window>

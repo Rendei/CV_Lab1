@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static CV_Lab1.Functions.ImageFunctions;
-
+using static CV_Lab1.Functions.SmoothingFunctions;
 namespace CV_Lab1
 {
     /// <summary>
@@ -59,6 +59,12 @@ namespace CV_Lab1
         {
             BitmapSource differenceMap = CalculateDifferenceMap((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source);
             new ChangedImageWindow(new Image() { Source = differenceMap }, userImg).ShowDialog();
+        }
+
+        private void calculateSharpMetricButton_Click(object sender, RoutedEventArgs e)
+        {
+            double S = GetSobelOperatorValue((BitmapSource)changedImg.Source);
+            sharpMetricLabel.Content = $"Значение метрики для резкости равно {S}";
         }
     }
 }

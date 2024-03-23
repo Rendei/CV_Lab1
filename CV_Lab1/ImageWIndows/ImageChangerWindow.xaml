@@ -80,15 +80,19 @@
 
             <TabItem Header="Сглаживание">
                 <Grid>
-                    <Button x:Name="rectangularFilterImageButton" Margin="50,30,0,0" FontSize="11" Click="rectangularFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить сглаживание прямоугольным фильтром"></Button>
-                    <Button x:Name="medianFilterImageButton" Margin="440,30,0,0" FontSize="11" Click="medianFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить сглаживание медианным фильтром"></Button>
-                    <StackPanel Margin="1,191,423,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="153*"/>
+                        <ColumnDefinition Width="244*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="rectangularFilterImageButton" Margin="50,30,0,0" FontSize="11" Click="rectangularFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить сглаживание прямоугольным фильтром" Grid.ColumnSpan="2"></Button>
+                    <Button x:Name="medianFilterImageButton" Margin="134,30,0,0" FontSize="11" Click="medianFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Применить сглаживание медианным фильтром" Grid.Column="1"></Button>
+                    <StackPanel Margin="1,191,423,10" Grid.ColumnSpan="2">
                         <Button x:Name="gaussianFilterImageButton" Margin="0,30,0,0" FontSize="12" Click="gaussianFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить сглаживание фильтром Гаусса"></Button>
                         <Label Content="Укажите значение сигмы" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="gaussianTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
                     </StackPanel>
 
-                    <StackPanel Margin="397,191,36,10">
+                    <StackPanel Margin="91,191,36,10" Grid.Column="1">
                         <Button x:Name="sigmaFilterImageButton" Margin="0,30,0,0" FontSize="12" Click="sigmaFilterImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить сглаживание сигма фильтром"></Button>
                         <Label Content="Укажите значение сигмы" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="sigmaTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>

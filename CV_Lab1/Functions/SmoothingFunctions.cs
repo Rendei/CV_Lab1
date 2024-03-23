@@ -219,7 +219,7 @@ namespace CV_Lab1.Functions
                     int maxX = Math.Min(width - 1, x + radius);
                     int maxY = Math.Min(height - 1, y + radius);
 
-                    int[] neighborhoodValues = new int[(maxX - minX + 1) * (maxY - minY + 1)];
+                    int[] neighborValues = new int[(maxX - minX + 1) * (maxY - minY + 1)];
                     int index = 0;
                     for (int j = minY; j <= maxY; j++)
                     {
@@ -227,14 +227,14 @@ namespace CV_Lab1.Functions
                         {
                             int pixelIndex = (j * width + i) * 4;
                             byte pixelValue = pixels[pixelIndex];
-                            neighborhoodValues[index++] = pixelValue;
+                            neighborValues[index++] = pixelValue;
                         }
                     }
 
-                    //Array.Sort(neighborhoodValues);                    
-                    //byte medianValue = (byte)neighborhoodValues[neighborhoodValues.Length / 2 + 1];
+                    //Array.Sort(neighborValues);                    
+                    //byte medianValue = (byte)neighborValues[neighborValues.Length / 2 + 1];
 
-                    byte meanValue = (byte)neighborhoodValues.Average();
+                    byte meanValue = (byte)neighborValues.Average();
 
                     int pixelIndexToUpdate = (y * width + x) * 4;
                     pixels[pixelIndexToUpdate] = meanValue;
@@ -246,6 +246,65 @@ namespace CV_Lab1.Functions
             filteredImage.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
 
             return filteredImage;
+        }
+
+        public static double GetSobelOperatorValue(BitmapSource source)
+        {
+            int width = source.PixelWidth;
+            int height = source.PixelHeight ;
+            int stride = width * 4;
+            byte[] pixels = new byte[stride * height];
+
+            source.CopyPixels(pixels, stride, 0);
+
+            int[,] sobelX = { 
+                { -1, 0, 1 }, 
+                { -2, 0, 2 }, 
+                { -1, 0, 1 } };
+
+            int[,] sobelY = { 
+                { -1, -2, -1 }, 
+                { 0, 0, 0 }, 
+                { 1, 2, 1 } };
+
+            List<double> gradientValues = new List<double>();
+            
+            for (int y = 1; y < height - 1; y++)
+            {
+                for (int x = 1; x < width - 1; x++)
+                {
+                    int gradientX = 0;
+                    for (int i = -1; i <= 1; i++)
+                    {
+                        for (int j = -1; j <= 1; j++)
+                        {
+                            int offsetX = x + j;
+                            int offsetY = y + i;
+                            int pixelIndex = (offsetY * width + offsetX) * 4;
+                            gradientX += sobelX[i + 1, j + 1] * pixels[pixelIndex]; //indexes are 0, 1, 2, but i is -1, 0, 1
+                        }
+                    }
+                 
+                    int gradientY = 0;
+                    for (int i = -1; i <= 1; i++)
+                    {
+                        for (int j = -1; j <= 1; j++)
+                        {
+                            int offsetX = x + j;
+                            int offsetY = y + i;
+                            int pixelIndex = (offsetY * width + offsetX) * 4;
+                            gradientY += sobelY[i + 1, j + 1] * pixels[pixelIndex];
+                        }
+                    }
+
+                    int gradientMagnitude = (int)Math.Sqrt(gradientX * gradientX + gradientY * gradientY);  
+                          
+                    gradientValues.Add(CheckByteRange(gradientMagnitude));
+                }
+            }
+
+
+            return gradientValues.Average();
         }
     }
 }

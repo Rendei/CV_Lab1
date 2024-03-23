@@ -331,9 +331,18 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            double lambda = double.Parse(lambdaTextBox.Text);
-            changedImg.Source = ApplyUnsharpMasking((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source, lambda);
-            tmpChangedImg.Source = changedImg.Source;
+            double lambda;
+            if (double.TryParse(lambdaTextBox.Text, out lambda))
+            {
+                changedImg.Source = ApplyUnsharpMasking((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source, lambda);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            else
+            {
+                MessageBox.Show("Введите правильное значение лямбды!");
+            }
+            
+            
         }
     }
 }
