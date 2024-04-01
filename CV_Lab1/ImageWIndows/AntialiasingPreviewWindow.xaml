@@ -12,5 +12,6 @@
             <Label Content="Однородное изображение" HorizontalAlignment="Center"/>
             <Image x:Name="firstImage" Height="500" Width="400" Source="..\images\firstImage(l=0.7, sigma = 3).png"/>
         </StackPanel>-->
+        <Image x:Name="differenceMapImage" Width="600" Height="600"> </Image>
     </Grid>
 </Window>

@@ -19,9 +19,10 @@ namespace CV_Lab1.ImageWIndows
     /// </summary>
     public partial class AntialiasingPreviewWindow : Window
     {
-        public AntialiasingPreviewWindow()
+        public AntialiasingPreviewWindow(Image image)
         {
             InitializeComponent();
+            differenceMapImage.Source = image.Source;
         }
     }
 }

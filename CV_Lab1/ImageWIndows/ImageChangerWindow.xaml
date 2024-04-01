@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:CV_Lab1"
         mc:Ignorable="d"
         Title="Изменение изображения" Height="450" Width="800"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="Manual"
+        Left="800" Top="200">
     <Grid Height="430" VerticalAlignment="Top">
         <TabControl>
             <TabItem Header="Общие функции">

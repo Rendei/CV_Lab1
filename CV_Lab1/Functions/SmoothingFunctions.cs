@@ -166,7 +166,7 @@ namespace CV_Lab1.Functions
             return filteredImage;
         }
 
-        private static double[,] CreateGaussianKernel(int size, double sigma)
+        public static double[,] CreateGaussianKernel(int size, double sigma)
         {
             double[,] kernel = new double[size, size];
             double sumTotal = 0;

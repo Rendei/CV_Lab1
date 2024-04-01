@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="images\" />
+    <Folder Include="images\sharpened images\" />
   </ItemGroup>
 
 </Project>
