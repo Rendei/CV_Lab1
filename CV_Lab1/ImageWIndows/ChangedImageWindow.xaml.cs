@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using CV_Lab1.ImageWIndows;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static CV_Lab1.Functions.ImageFunctions;
-
+using static CV_Lab1.Functions.SmoothingFunctions;
 namespace CV_Lab1
 {
     /// <summary>
@@ -58,7 +59,19 @@ namespace CV_Lab1
         private void differenceMapButton_Click(object sender, RoutedEventArgs e)
         {
             BitmapSource differenceMap = CalculateDifferenceMap((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source);
-            new ChangedImageWindow(new Image() { Source = differenceMap }, userImg).ShowDialog();
+            new AntialiasingPreviewWindow(new Image() { Source = differenceMap }).ShowDialog();
+        }
+
+        private void calculateSharpMetricButton_Click(object sender, RoutedEventArgs e)
+        {
+            double S = GetSobelOperatorValue((BitmapSource)changedImg.Source);
+            sharpMetricLabel.Content = $"Значение метрики для резкости равно {S}";
+        }
+
+        private void imgChangeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ImageChangerWindow imageChangerWindow = new ImageChangerWindow(userImg, changedImg);
+            imageChangerWindow.ShowDialog();
         }
     }
 }

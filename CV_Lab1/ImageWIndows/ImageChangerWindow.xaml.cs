@@ -19,6 +19,7 @@ using static CV_Lab1.Functions.ImageFunctions;
 using static CV_Lab1.Functions.ChromaticityFunctions;
 using static CV_Lab1.Functions.SmoothingFunctions;
 using static CV_Lab1.Functions.AntialiasingFunction;
+using static CV_Lab1.Functions.EdgeDetectionFunctions;
 using System.Text.RegularExpressions;
 
 namespace CV_Lab1
@@ -293,7 +294,7 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            changedImg.Source = ApplyRectangularFilter((BitmapSource)changedImg.Source);
+            changedImg.Source = ApplyLoG((BitmapSource)changedImg.Source, 3, 1);
             tmpChangedImg.Source = changedImg.Source;
         }
 
@@ -311,9 +312,9 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
  
-                double sigma = double.Parse(gaussianTextBox.Text);
-                changedImg.Source = ApplyGaussianFilter((BitmapSource)changedImg.Source, sigma);
-                tmpChangedImg.Source = changedImg.Source;                             
+            double sigma = double.Parse(gaussianTextBox.Text);
+            changedImg.Source = ApplyGaussianFilter((BitmapSource)changedImg.Source, sigma);
+            tmpChangedImg.Source = changedImg.Source;                             
         }
 
         private void sigmaFilterImageButton_Click(object sender, RoutedEventArgs e)
@@ -331,9 +332,18 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            double lambda = double.Parse(lambdaTextBox.Text);
-            changedImg.Source = ApplyUnsharpMasking((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source, lambda);
-            tmpChangedImg.Source = changedImg.Source;
+            double lambda;
+            if (double.TryParse(lambdaTextBox.Text, out lambda))
+            {
+                changedImg.Source = ApplyUnsharpMasking((BitmapSource)userImg.Source, (BitmapSource)changedImg.Source, lambda);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            else
+            {
+                MessageBox.Show("Введите правильное значение лямбды!");
+            }
+            
+            
         }
     }
 }

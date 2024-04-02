@@ -1,0 +1,17 @@
+﻿<Window x:Class="CV_Lab1.ImageWIndows.AntialiasingPreviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CV_Lab1.ImageWIndows"
+        mc:Ignorable="d"
+        Title="AntialiasingPreviewWindow" Height="700" Width="1000"
+        ResizeMode="CanMinimize">
+    <Grid>
+        <!--<StackPanel Margin="27,55,528,31">
+            <Label Content="Однородное изображение" HorizontalAlignment="Center"/>
+            <Image x:Name="firstImage" Height="500" Width="400" Source="..\images\firstImage(l=0.7, sigma = 3).png"/>
+        </StackPanel>-->
+        <Image x:Name="differenceMapImage" Width="600" Height="600"> </Image>
+    </Grid>
+</Window>
