@@ -39,7 +39,7 @@ namespace CV_Lab1.Functions
             return filteredImage;
         }
 
-        public static BitmapSource ApplyDoG(BitmapSource source, int kernelSize1, double sigma1)
+        public static BitmapSource ApplyDoG(BitmapSource source, int kernelSize, double sigma)
         {
             WriteableBitmap filteredImage = new WriteableBitmap(source);
 
@@ -48,14 +48,13 @@ namespace CV_Lab1.Functions
             int stride = width * 4;
             byte[] pixels = new byte[height * stride];
             filteredImage.CopyPixels(pixels, stride, 0);
+            
+            double[,] gaussianKernel1 = CreateGaussianKernel(kernelSize, sigma);
+            byte[] blurredPixels1 = Convolve(pixels, width, height, gaussianKernel1, kernelSize);
 
-            // Apply first Gaussian filter
-            double[,] gaussianKernel1 = CreateGaussianKernel(kernelSize1, sigma1);
-            byte[] blurredPixels1 = Convolve(pixels, width, height, gaussianKernel1, kernelSize1);
-
-            // Apply second Gaussian filter
-            double[,] gaussianKernel2 = CreateGaussianKernel(kernelSize2, sigma2);
-            byte[] blurredPixels2 = Convolve(pixels, width, height, gaussianKernel2, kernelSize2);
+            double sigmaScaled = sigma * Math.Pow(1.6, 3);
+            double[,] gaussianKernel2 = CreateGaussianKernel(kernelSize, sigmaScaled);
+            byte[] blurredPixels2 = Convolve(pixels, width, height, gaussianKernel2, kernelSize);
 
             // Calculate DoG by subtracting the second blurred image from the first one
             byte[] dogPixels = new byte[blurredPixels1.Length];

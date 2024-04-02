@@ -294,7 +294,7 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            changedImg.Source = ApplyLoG((BitmapSource)changedImg.Source, 3, 1);
+            changedImg.Source = ApplyRectangularFilter((BitmapSource)changedImg.Source);
             tmpChangedImg.Source = changedImg.Source;
         }
 
@@ -311,10 +311,17 @@ namespace CV_Lab1
         {
             if (userImg.Source == null)
                 return;
- 
-            double sigma = double.Parse(gaussianTextBox.Text);
-            changedImg.Source = ApplyGaussianFilter((BitmapSource)changedImg.Source, sigma);
-            tmpChangedImg.Source = changedImg.Source;                             
+
+            if (double.TryParse(gaussianTextBox.Text, out double sigma))
+            {
+                changedImg.Source = ApplyGaussianFilter((BitmapSource)changedImg.Source, sigma);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            else
+            {
+                MessageBox.Show("Введите верное значение сигмы!");
+            }
+                                      
         }
 
         private void sigmaFilterImageButton_Click(object sender, RoutedEventArgs e)
@@ -322,9 +329,16 @@ namespace CV_Lab1
             if (userImg.Source == null)
                 return;
 
-            double sigma = double.Parse(sigmaTextBox.Text);
-            changedImg.Source = ApplySigmaFilter((BitmapSource)changedImg.Source, sigma);
-            tmpChangedImg.Source = changedImg.Source;
+            if (double.TryParse(sigmaTextBox.Text, out double sigma))
+            {
+                changedImg.Source = ApplySigmaFilter((BitmapSource)changedImg.Source, sigma);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            else
+            {
+                MessageBox.Show("Введите верное значение сигмы!");
+            }
+            
         }
 
         private void unmaskedSharpImageButton_Click(object sender, RoutedEventArgs e)
@@ -344,6 +358,44 @@ namespace CV_Lab1
             }
             
             
+        }
+
+        private void LoGImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            if (double.TryParse(LoGTextBox.Text, out double sigma))
+            {
+                int kernelSize;
+                kernelSize = int.TryParse(LoGFilterTextBox.Text, out kernelSize) ? kernelSize : 3;
+                changedImg.Source = ApplyLoG((BitmapSource)changedImg.Source, kernelSize, sigma);
+                changedImg.Source = GetNegativeImage((BitmapSource)changedImg.Source);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            else
+            {
+                MessageBox.Show("Введите верное значение сигмы!");
+            }
+        }
+
+        private void DoGImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            if (double.TryParse(DoGTextBox.Text, out double sigma))
+            {
+                int kernelSize;
+                kernelSize = int.TryParse(DoGFilterTextBox.Text, out kernelSize) ? kernelSize : 3;
+                changedImg.Source = ApplyDoG((BitmapSource)changedImg.Source, kernelSize, sigma);
+                changedImg.Source = GetNegativeImage((BitmapSource)changedImg.Source);
+                tmpChangedImg.Source = changedImg.Source;
+            }
+            else
+            {
+                MessageBox.Show("Введите верное значение сигмы!");
+            }
         }
     }
 }

@@ -102,7 +102,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Сглаживание">
+            <TabItem Header="Повышение контраста">
                 <Grid>
                     <StackPanel Margin="212,100,212,100">
                         <Button x:Name="unmaskedSharpImageButton" Margin="0,30,0,0" FontSize="12" Click="unmaskedSharpImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить нерезкое маскирование"></Button>
@@ -112,6 +112,25 @@
                 </Grid>
             </TabItem>
 
+            <TabItem Header="Нахождение границ">
+                <Grid>
+                    <StackPanel Margin="0,0,414,123">
+                        <Button x:Name="LoGImageButton" Margin="0,30,0,0" FontSize="12" Click="LoGImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить LoG"></Button>
+                        <Label Content="Укажите сигму" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="LoGTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                        <Label Content="Укажите размер фильтра" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="LoGFilterTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="397,0,0,123">
+                        <Button x:Name="DoGImageButton" Margin="0,30,0,0" FontSize="12" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить DoG" Click="DoGImageButton_Click"/>
+                        <Label Content="Укажите сигму" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="DoGTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                        <Label Content="Укажите размер фильтра" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="DoGFilterTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
