@@ -212,7 +212,7 @@ namespace CV_Lab1
 
         private void exponentionalTransformImageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (userImg.Source == null)
+             if (userImg.Source == null)
                 return;
 
             try
