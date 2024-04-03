@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CV_Lab1.ImageWIndows"
         mc:Ignorable="d"
-        Title="VideoWindow" Height="900" Width="800">
-    <Grid>
-        <MediaElement  Width="600" Height="300" LoadedBehavior="Manual" Name="videoPlayer" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="109,28,0,0"/>
-        <Image x:Name="image" Width="600" Height="300" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="109,360,0,0"></Image>
-        <StackPanel Margin="0,791,0,10">
-            <Label Name="lblStatus" Content="Не воспроизводится..." HorizontalContentAlignment="Center" Margin="5" />
+        Title="VideoWindow" Height="800" Width="800"
+        ResizeMode="NoResize"
+       >
+    <Grid Margin="0,0,0,-6">
+        <MediaElement Height="300" Width="700" LoadedBehavior="Manual" Name="videoPlayer" VerticalAlignment="Top" Margin="50,20,0,0" HorizontalAlignment="Left"/>
+        <Image x:Name="image" Height="300" Width="700" VerticalAlignment="Top"  Margin="0,340,0,0" HorizontalAlignment="Left"/>
+
+        <StackPanel Margin="34,653,34,56">
+            <Label Name="labelStatus" Content="Не воспроизводится..." HorizontalContentAlignment="Center" Margin="5" />
             <WrapPanel HorizontalAlignment="Center">
                 <Button Name="btnPlay" Click="btnPlay_Click">Воспроизвести</Button>
                 <Button Name="btnPause" Margin="5,0" Click="btnPause_Click">Пауза</Button>

@@ -399,6 +399,55 @@ namespace CV_Lab1.Functions
             return result;
         }
 
+        public static byte[] ConvolveParallel(byte[] pixels, int width, int height, double[,] kernel, int kernelSize)
+        {
+            byte[] result = new byte[pixels.Length];
+
+            int kernelRadius = kernelSize / 2;
+
+            int numColumns = Environment.ProcessorCount;
+            int columnWidth = width / numColumns;
+
+            Parallel.For(0, numColumns, columnIndex =>
+            {
+                int startX = columnIndex * columnWidth;
+                int endX = (columnIndex == numColumns - 1) ? width : (columnIndex + 1) * columnWidth;
+
+                for (int x = startX; x < endX; x++)
+                {
+                    for (int y = kernelRadius; y < height - kernelRadius; y++)
+                    {
+                        double blue = 0.0, green = 0.0, red = 0.0;
+
+                        for (int filterY = -kernelRadius; filterY <= kernelRadius; filterY++)
+                        {
+                            for (int filterX = -kernelRadius; filterX <= kernelRadius; filterX++)
+                            {
+                                int imageX = (x + filterX + width) % width;
+                                int imageY = (y + filterY + height) % height;
+
+                                byte b = pixels[(imageY * width + imageX) * 4];
+                                byte g = pixels[(imageY * width + imageX) * 4 + 1];
+                                byte r = pixels[(imageY * width + imageX) * 4 + 2];
+
+                                blue += b * kernel[filterY + kernelRadius, filterX + kernelRadius];
+                                green += g * kernel[filterY + kernelRadius, filterX + kernelRadius];
+                                red += r * kernel[filterY + kernelRadius, filterX + kernelRadius];
+                            }
+                        }
+
+                        int index = (y * width + x) * 4;
+                        result[index] = CheckByteRange(blue);
+                        result[index + 1] = CheckByteRange(green);
+                        result[index + 2] = CheckByteRange(red);
+                        result[index + 3] = pixels[index + 3];
+                    }
+                }
+            });
+
+            return result;
+        }
+
         public static byte CheckByteRange(double value)
         {
             return (byte)Math.Min(Math.Max(value, 0), 255);

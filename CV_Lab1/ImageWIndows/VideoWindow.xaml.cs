@@ -39,17 +39,6 @@ namespace CV_Lab1.ImageWIndows
             videoPlayer.MediaOpened += VideoPlayer_MediaOpened;
         }
 
-        //void timer_Tick(object sender, EventArgs e)
-        //{
-        //    if (videoPlayer.Source != null)
-        //    {
-        //        if (videoPlayer.NaturalDuration.HasTimeSpan)
-        //            lblStatus.Content = String.Format("{0} / {1}", videoPlayer.Position.ToString(@"mm\:ss"), videoPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
-        //    }
-        //    else
-        //        lblStatus.Content = "Не выбрано видео...";
-        //}
-
         private void VideoPlayer_MediaOpened(object sender, RoutedEventArgs e)
         {
             timer.Interval = TimeSpan.FromSeconds(1.0 / 120); // frame rate here
@@ -62,20 +51,28 @@ namespace CV_Lab1.ImageWIndows
         private void Timer_Tick(object sender, EventArgs e)
         {
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(
-                600,
+                700,
                 300,
                 96,
                 96,
                 PixelFormats.Pbgra32);
 
             renderTargetBitmap.Render(videoPlayer);
-
-
+            
             BitmapSource bitmapSource = ApplyLoGVideo(renderTargetBitmap, 3, 1);
             bitmapSource = GetNegativeImage(bitmapSource);
 
+            
+
             image.Source = bitmapSource;
 
+            if (videoPlayer.Source != null)
+            {
+                if (videoPlayer.NaturalDuration.HasTimeSpan)
+                    labelStatus.Content = String.Format("{0} / {1}", videoPlayer.Position.ToString(@"mm\:ss"), videoPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+            }
+            else
+                labelStatus.Content = "Не выбрано видео...";
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
@@ -93,8 +90,8 @@ namespace CV_Lab1.ImageWIndows
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
+            timer.Stop();
             videoPlayer.Stop();
-
         }
     }
 }

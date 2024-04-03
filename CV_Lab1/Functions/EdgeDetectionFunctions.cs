@@ -139,7 +139,7 @@ namespace CV_Lab1.Functions
 
             // Apply Gaussian filter
             double[,] gaussianKernel = CreateGaussianKernel(kernelSize, sigma);
-            byte[] blurredPixels = Convolve(pixels, width, height, gaussianKernel, kernelSize);
+            byte[] blurredPixels = ConvolveParallel(pixels, width, height, gaussianKernel, kernelSize);
 
             // Apply Laplacian filter
             double[,] laplacianKernel = {
@@ -147,7 +147,7 @@ namespace CV_Lab1.Functions
                 {1, -4, 1},
                 {0,  1, 0}
             };
-            byte[] logPixels = Convolve(blurredPixels, width, height, laplacianKernel, 3);
+            byte[] logPixels = ConvolveParallel(blurredPixels, width, height, laplacianKernel, 3);
 
             filteredImage.WritePixels(new Int32Rect(0, 0, width, height), logPixels, stride, 0);
 
