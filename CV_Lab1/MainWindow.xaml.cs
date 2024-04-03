@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static CV_Lab1.Functions.ImageFunctions;
 using CV_Lab1.Functions;
+using CV_Lab1.ImageWIndows;
 
 namespace CV_Lab1
 {
@@ -284,6 +285,23 @@ namespace CV_Lab1
         {
             ImagePreviewWindow previewWindow = new ImagePreviewWindow();
             previewWindow.ShowDialog();
+        }
+
+        private void videoLoadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog()
+            {
+                Filter = "Video Files (*.MP4;*.MKV)|*.MP4;*.MKV"
+            };
+            fileDialog.DefaultExt = ".MP4";
+            var result = fileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                VideoWindow videoWindow = new VideoWindow(new Uri(fileDialog.FileName));
+                videoWindow.ShowDialog();
+            }
+            
         }
     }
 

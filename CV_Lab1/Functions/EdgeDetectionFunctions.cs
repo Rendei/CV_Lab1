@@ -52,7 +52,7 @@ namespace CV_Lab1.Functions
             double[,] gaussianKernel1 = CreateGaussianKernel(kernelSize, sigma);
             byte[] blurredPixels1 = Convolve(pixels, width, height, gaussianKernel1, kernelSize);
 
-            double sigmaScaled = sigma * Math.Pow(1.6, 3);
+            double sigmaScaled = sigma * Math.Pow(1.6, 5);
             double[,] gaussianKernel2 = CreateGaussianKernel(kernelSize, sigmaScaled);
             byte[] blurredPixels2 = Convolve(pixels, width, height, gaussianKernel2, kernelSize);
 
@@ -68,44 +68,90 @@ namespace CV_Lab1.Functions
             return filteredImage;
         }
 
-        private static byte[] Convolve(byte[] pixels, int width, int height, double[,] kernel, int kernelSize)
+        public static double GetSobelOperatorValue(BitmapSource source)
         {
-            byte[] result = new byte[pixels.Length];
+            int width = source.PixelWidth;
+            int height = source.PixelHeight;
+            int stride = width * 4;
+            byte[] pixels = new byte[stride * height];
 
-            int kernelRadius = kernelSize / 2;
+            source.CopyPixels(pixels, stride, 0);
 
-            for (int y = kernelRadius; y < height - kernelRadius; y++)
+            int[,] sobelX = {
+                { -1, 0, 1 },
+                { -2, 0, 2 },
+                { -1, 0, 1 } };
+
+            int[,] sobelY = {
+                { -1, -2, -1 },
+                { 0, 0, 0 },
+                { 1, 2, 1 } };
+
+            List<double> gradientValues = new List<double>();
+
+            for (int y = 1; y < height - 1; y++)
             {
-                for (int x = kernelRadius; x < width - kernelRadius; x++)
+                for (int x = 1; x < width - 1; x++)
                 {
-                    double blue = 0.0, green = 0.0, red = 0.0;
-
-                    for (int filterY = -kernelRadius; filterY <= kernelRadius; filterY++)
+                    int gradientX = 0;
+                    for (int i = -1; i <= 1; i++)
                     {
-                        for (int filterX = -kernelRadius; filterX <= kernelRadius; filterX++)
+                        for (int j = -1; j <= 1; j++)
                         {
-                            int imageX = (x - kernelRadius + filterX + width) % width;
-                            int imageY = (y - kernelRadius + filterY + height) % height;
-
-                            byte b = pixels[(imageY * width + imageX) * 4];
-                            byte g = pixels[(imageY * width + imageX) * 4 + 1];
-                            byte r = pixels[(imageY * width + imageX) * 4 + 2];
-
-                            blue += b * kernel[filterY + kernelRadius, filterX + kernelRadius];
-                            green += g * kernel[filterY + kernelRadius, filterX + kernelRadius];
-                            red += r * kernel[filterY + kernelRadius, filterX + kernelRadius];
+                            int offsetX = x + j;
+                            int offsetY = y + i;
+                            int pixelIndex = (offsetY * width + offsetX) * 4;
+                            gradientX += sobelX[i + 1, j + 1] * pixels[pixelIndex]; //indexes are 0, 1, 2, but i is -1, 0, 1
                         }
                     }
 
-                    int index = (y * width + x) * 4;
-                    result[index] = CheckByteRange(blue);
-                    result[index + 1] = CheckByteRange(green);
-                    result[index + 2] = CheckByteRange(red);
-                    result[index + 3] = pixels[index + 3];
+                    int gradientY = 0;
+                    for (int i = -1; i <= 1; i++)
+                    {
+                        for (int j = -1; j <= 1; j++)
+                        {
+                            int offsetX = x + j;
+                            int offsetY = y + i;
+                            int pixelIndex = (offsetY * width + offsetX) * 4;
+                            gradientY += sobelY[i + 1, j + 1] * pixels[pixelIndex];
+                        }
+                    }
+
+                    int gradientMagnitude = (int)Math.Sqrt(gradientX * gradientX + gradientY * gradientY);
+
+                    gradientValues.Add(CheckByteRange(gradientMagnitude));
                 }
             }
 
-            return result;
+
+            return gradientValues.Average();
+        }
+
+        public static BitmapSource ApplyLoGVideo(BitmapSource source, int kernelSize, double sigma)
+        {
+            WriteableBitmap filteredImage = new WriteableBitmap(source);
+
+            int width = filteredImage.PixelWidth;
+            int height = filteredImage.PixelHeight;
+            int stride = width * 4;
+            byte[] pixels = new byte[height * stride];
+            filteredImage.CopyPixels(pixels, stride, 0);
+
+            // Apply Gaussian filter
+            double[,] gaussianKernel = CreateGaussianKernel(kernelSize, sigma);
+            byte[] blurredPixels = Convolve(pixels, width, height, gaussianKernel, kernelSize);
+
+            // Apply Laplacian filter
+            double[,] laplacianKernel = {
+                {0,  1, 0},
+                {1, -4, 1},
+                {0,  1, 0}
+            };
+            byte[] logPixels = Convolve(blurredPixels, width, height, laplacianKernel, 3);
+
+            filteredImage.WritePixels(new Int32Rect(0, 0, width, height), logPixels, stride, 0);
+
+            return filteredImage;
         }
     }
 }

@@ -248,63 +248,6 @@ namespace CV_Lab1.Functions
             return filteredImage;
         }
 
-        public static double GetSobelOperatorValue(BitmapSource source)
-        {
-            int width = source.PixelWidth;
-            int height = source.PixelHeight ;
-            int stride = width * 4;
-            byte[] pixels = new byte[stride * height];
-
-            source.CopyPixels(pixels, stride, 0);
-
-            int[,] sobelX = { 
-                { -1, 0, 1 }, 
-                { -2, 0, 2 }, 
-                { -1, 0, 1 } };
-
-            int[,] sobelY = { 
-                { -1, -2, -1 }, 
-                { 0, 0, 0 }, 
-                { 1, 2, 1 } };
-
-            List<double> gradientValues = new List<double>();
-            
-            for (int y = 1; y < height - 1; y++)
-            {
-                for (int x = 1; x < width - 1; x++)
-                {
-                    int gradientX = 0;
-                    for (int i = -1; i <= 1; i++)
-                    {
-                        for (int j = -1; j <= 1; j++)
-                        {
-                            int offsetX = x + j;
-                            int offsetY = y + i;
-                            int pixelIndex = (offsetY * width + offsetX) * 4;
-                            gradientX += sobelX[i + 1, j + 1] * pixels[pixelIndex]; //indexes are 0, 1, 2, but i is -1, 0, 1
-                        }
-                    }
-                 
-                    int gradientY = 0;
-                    for (int i = -1; i <= 1; i++)
-                    {
-                        for (int j = -1; j <= 1; j++)
-                        {
-                            int offsetX = x + j;
-                            int offsetY = y + i;
-                            int pixelIndex = (offsetY * width + offsetX) * 4;
-                            gradientY += sobelY[i + 1, j + 1] * pixels[pixelIndex];
-                        }
-                    }
-
-                    int gradientMagnitude = (int)Math.Sqrt(gradientX * gradientX + gradientY * gradientY);  
-                          
-                    gradientValues.Add(CheckByteRange(gradientMagnitude));
-                }
-            }
-
-
-            return gradientValues.Average();
-        }
+        
     }
 }
