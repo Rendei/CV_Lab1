@@ -397,5 +397,40 @@ namespace CV_Lab1
                 MessageBox.Show("Введите верное значение сигмы!");
             }
         }
+
+        private void sobelFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userImg.Source == null)
+                return;
+
+            RadioButton checkedRadioButton = this.sobelFilterPanel.Children.OfType<RadioButton>().FirstOrDefault(rb => rb.IsChecked == true);
+
+            if (checkedRadioButton == null)
+                return;
+
+            switch (checkedRadioButton.Name)
+            {
+                case "threeByThreeRadioButton":
+                {
+                    changedImg.Source = ApplySobelOperator((BitmapSource)changedImg.Source, 3);
+                    changedImg.Source = GetNegativeImage((BitmapSource)changedImg.Source);
+                    tmpChangedImg.Source = changedImg.Source;
+                } break;
+
+                case "fiveByFiveRadioButton":
+                {
+                    changedImg.Source = ApplySobelOperator((BitmapSource)changedImg.Source, 5);
+                    changedImg.Source = GetNegativeImage((BitmapSource)changedImg.Source);
+                    tmpChangedImg.Source = changedImg.Source;
+                } break;
+
+                case "sevenBySevenRadioButton":
+                {
+                    changedImg.Source = ApplySobelOperator((BitmapSource)changedImg.Source, 7);
+                    changedImg.Source = GetNegativeImage((BitmapSource)changedImg.Source);
+                    tmpChangedImg.Source = changedImg.Source;
+                } break;
+            }
+        }
     }
 }

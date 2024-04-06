@@ -117,17 +117,27 @@
                     <StackPanel Margin="0,0,414,123">
                         <Button x:Name="LoGImageButton" Margin="0,30,0,0" FontSize="12" Click="LoGImageButton_Click" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить LoG"></Button>
                         <Label Content="Укажите сигму" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox x:Name="LoGTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
-                        <Label Content="Укажите размер фильтра" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox x:Name="LoGFilterTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                        <TextBox x:Name="LoGTextBox"  Width="200" Height="30" Margin="0 5 0 0"/>
+                        <Label Content="Укажите размер фильтра" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="LoGFilterTextBox"  Width="200" Height="30" Margin="0 5 0 0"/>
                     </StackPanel>
 
                     <StackPanel Margin="397,0,0,123">
                         <Button x:Name="DoGImageButton" Margin="0,30,0,0" FontSize="12" Width="272" Height="98" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Применить DoG" Click="DoGImageButton_Click"/>
                         <Label Content="Укажите сигму" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox x:Name="DoGTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                        <TextBox x:Name="DoGTextBox"  Width="200" Height="30" Margin="0 5 0 0"/>
                         <Label Content="Укажите размер фильтра" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="DoGFilterTextBox" PreviewTextInput="NumberValidationTextBox" Width="200" Height="30" Margin="0 5 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,264,0,0">
+                        <Button x:Name="sobelFilterButton" Width="200" Height="50" Content="Применить фильтр Собеля" Click="sobelFilterButton_Click" />
+                        <StackPanel Name="sobelFilterPanel" HorizontalAlignment="Center">
+                            <Label Content="Выберите размер фильтра"></Label>
+                            <RadioButton x:Name="threeByThreeRadioButton" Content="3x3" IsChecked="True"></RadioButton>
+                            <RadioButton x:Name="fiveByFiveRadioButton" Content="5x5"></RadioButton>
+                            <RadioButton x:Name="sevenBySevenRadioButton" Content="7x7"></RadioButton>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </TabItem>

@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <Folder Include="images\sharpened images\" />
+    <Folder Include="images\sobel images\" />
+    <Folder Include="images\log + dog images\" />
     <Folder Include="ImageWIndows\Новая папка\" />
   </ItemGroup>
 
