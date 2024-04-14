@@ -59,12 +59,23 @@ namespace CV_Lab1.ImageWIndows
 
             renderTargetBitmap.Render(videoPlayer);
             
-            BitmapSource bitmapSource = ApplyLoGVideo(renderTargetBitmap, 3, 1);
-            bitmapSource = GetNegativeImage(bitmapSource);
-
+            RadioButton checkedRadioButton = this.edgeFilterStackPanel.Children.OfType<RadioButton>().FirstOrDefault(rb => rb.IsChecked == true);
+            switch (checkedRadioButton.Name)
+            {
+                case "sobelRadioButton":
+                    {
+                        BitmapSource bitmapSource = ApplySobelOperatorVideo(renderTargetBitmap, 3);
+                        bitmapSource = GetNegativeImage(bitmapSource);
+                        image.Source = bitmapSource;
+                    } break;
+                case "LoGRadioButton":
+                    {
+                        BitmapSource bitmapSource = ApplyLoGVideo(renderTargetBitmap, 3, 0.5);
+                        bitmapSource = GetNegativeImage(bitmapSource);
+                        image.Source = bitmapSource;
+                    } break;
+            }                                               
             
-
-            image.Source = bitmapSource;
 
             if (videoPlayer.Source != null)
             {

@@ -8,16 +8,21 @@
         Title="VideoWindow" Height="800" Width="800"
         ResizeMode="NoResize"
        >
-    <Grid Margin="0,0,0,-6">
+    <Grid Margin="0,0,0,-39">
         <MediaElement Height="300" Width="700" LoadedBehavior="Manual" Name="videoPlayer" VerticalAlignment="Top" Margin="50,20,0,0" HorizontalAlignment="Left"/>
         <Image x:Name="image" Height="300" Width="700" VerticalAlignment="Top"  Margin="0,340,0,0" HorizontalAlignment="Left"/>
 
-        <StackPanel Margin="34,653,34,56">
+        <StackPanel Margin="34,627,34,56">
             <Label Name="labelStatus" Content="Не воспроизводится..." HorizontalContentAlignment="Center" Margin="5" />
             <WrapPanel HorizontalAlignment="Center">
                 <Button Name="btnPlay" Click="btnPlay_Click">Воспроизвести</Button>
                 <Button Name="btnPause" Margin="5,0" Click="btnPause_Click">Пауза</Button>
                 <Button Name="btnStop" Click="btnStop_Click">Остановить</Button>
+            </WrapPanel>
+            <WrapPanel x:Name="edgeFilterStackPanel" HorizontalAlignment="Center">
+                <Label Content="Для обработки видео использовать"/>
+                <RadioButton x:Name="sobelRadioButton" Margin="5" Content="Оператор Собеля" IsChecked="True"></RadioButton>
+                <RadioButton x:Name="LoGRadioButton" Margin="5" Content="LoG"></RadioButton>
             </WrapPanel>
         </StackPanel>
     </Grid>
